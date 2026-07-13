@@ -1,0 +1,164 @@
+/* ============================================================
+   Global Styles — Rosetta Café de Especialidad
+   Reset, custom properties, base typography
+   ============================================================ */
+
+/* ---- Reset ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+img,
+picture,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Custom Properties (warm palette) ---- */
+:root {
+  --color-primary: #4a3728;
+  --color-secondary: #c4956a;
+  --color-bg: #fdf8f3;
+  --color-surface: #f5ede4;
+  --color-text: #2c1810;
+  --color-text-light: #f5ede4;
+  --color-border: #e8ddd3;
+
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  --max-width: 1100px;
+}
+
+html {
+  scroll-padding-top: 5rem;
+}
+
+/* ---- Section Nav ---- */
+.section-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.section-nav__link {
+  flex-shrink: 0;
+  padding: 0.5rem 1.125rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+}
+
+.section-nav__link:hover,
+.section-nav__link:focus-visible {
+  background: var(--color-secondary);
+  color: #fff;
+  border-color: var(--color-secondary);
+  outline: none;
+}
+
+/* ---- Menu Sections Layout ---- */
+.menu-sections > .menu-section:nth-child(odd) {
+  background: var(--section-accent, var(--color-surface));
+}
+
+.menu-sections > .menu-section:nth-child(even) {
+  background: var(--section-accent, var(--color-bg));
+}
+
+/* ---- Sub-category heading ---- */
+.sub-category__heading {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--color-secondary);
+  margin: 0 0 1rem;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ---- Base Typography ---- */
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}

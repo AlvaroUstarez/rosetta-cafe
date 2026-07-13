@@ -1,0 +1,109 @@
+---
+import type { MenuCategory } from "../data/menu";
+import type { Locale } from "../i18n";
+import { tRecord } from "../i18n";
+
+export interface Props {
+  categories: MenuCategory[];
+  locale: Locale;
+}
+
+const { categories, locale } = Astro.props;
+const otherLocale = locale === "es" ? "en" : "es";
+const otherPath = otherLocale === "en" ? "/en/" : "/";
+---
+
+<nav class="section-nav">
+  {categories.map((cat) => (
+    <a href={`#section-${cat.id}`} class="section-nav__link">
+      {tRecord(cat.label, locale)}
+    </a>
+  ))}
+  <span class="section-nav__spacer" aria-hidden="true"></span>
+  <a
+    href={otherPath}
+    class={`section-nav__lang ${locale === otherLocale ? "" : "section-nav__lang--active"}`}
+    aria-label={otherLocale === "en" ? "Switch to English" : "Cambiar a español"}
+  >
+    {otherLocale.toUpperCase()}
+  </a>
+</nav>
+
+<style>
+  .section-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .section-nav__link {
+    flex-shrink: 0;
+    padding: 0.5rem 1.125rem;
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      border-color 0.2s;
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+  }
+
+  .section-nav__link:hover,
+  .section-nav__link:focus-visible {
+    background: var(--color-secondary);
+    color: #fff;
+    border-color: var(--color-secondary);
+    outline: none;
+  }
+
+  .section-nav__link:active {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+  }
+
+  .section-nav__spacer {
+    flex: 1;
+    min-width: 0.5rem;
+  }
+
+  .section-nav__lang {
+    flex-shrink: 0;
+    padding: 0.5rem 0.875rem;
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+  }
+
+  .section-nav__lang--active {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+  }
+
+  .section-nav__lang:not(.section-nav__lang--active):hover {
+    background: var(--color-secondary);
+    color: #fff;
+    border-color: var(--color-secondary);
+    outline: none;
+  }
+</style>

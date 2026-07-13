@@ -1,0 +1,47 @@
+---
+import Footer from "../../components/Footer.astro";
+import Hero from "../../components/Hero.astro";
+import MenuSection from "../../components/MenuSection.astro";
+import SectionNav from "../../components/SectionNav.astro";
+import { categories, products, protocolo } from "../../data/menu";
+import type { Locale } from "../../i18n";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const locale: Locale = "en";
+
+const sectionAccents: Record<string, string> = {
+  cafe: "#f5ede4",
+  "sin-cafe": "#eef5e4",
+  "pasteleria-panaderia": "#f5f0e4",
+  "opciones-saladas": "#f5ece4",
+  menus: "#f5e4e4",
+  promos: "#f0e4f0",
+};
+---
+
+<BaseLayout locale={locale}>
+  <Hero locale={locale} />
+  <SectionNav categories={categories} locale={locale} />
+  <main class="menu-sections">
+    {categories.map((cat) => {
+      const sectionProducts = products.filter(
+        (p) => p.category === cat.id,
+      );
+      return (
+        <MenuSection
+          section={cat}
+          products={sectionProducts}
+          sectionAccent={sectionAccents[cat.id]}
+          locale={locale}
+        />
+      );
+    })}
+    <MenuSection
+      section={{ id: "protocolo", label: protocolo.title }}
+      protocolo={protocolo}
+      sectionAccent="#f0f0f0"
+      locale={locale}
+    />
+  </main>
+  <Footer locale={locale} />
+</BaseLayout>

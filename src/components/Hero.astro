@@ -1,0 +1,72 @@
+---
+import type { Locale } from "../i18n";
+import { t } from "../i18n";
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<section class="hero">
+  <div class="hero__content">
+    <h1 class="hero__title">Rosetta Café de Especialidad</h1>
+    <p class="hero__tagline">{t("hero.tagline", locale)}</p>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(
+      135deg,
+      #2c1810 0%,
+      #4a3728 50%,
+      #6f4e37 100%
+    );
+    padding: 2rem 1.25rem;
+    position: relative;
+  }
+
+  .hero__content {
+    max-width: 720px;
+  }
+
+  .hero__title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    color: #fdf8f3;
+    margin: 0 0 1rem;
+    line-height: 1.15;
+  }
+
+  .hero__tagline {
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    color: #d4c5b5;
+    margin: 0;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+
+  @media (min-width: 768px) {
+    .hero__title {
+      font-size: 3.5rem;
+    }
+
+    .hero__tagline {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero__title {
+      font-size: 4rem;
+    }
+  }
+</style>

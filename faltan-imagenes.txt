@@ -1,0 +1,111 @@
+Productos que faltan imagen
+============================
+
+CAFE — Calientes (4)
+- Long Black / Americano
+- Espresso + Leche (P)
+- Espresso + Leche (M)
+- Espresso + Leche (XL)
+
+CAFE — Frios (5)
+- Iced Coffee
+- Aerocano
+- Iced Latte
+- Orange Coffee
+- Espresso Tonic
+
+CAFE — Adicionales (6)
+- Vainilla Casera
+- Salted Caramel
+- Leche Vegetal
+- Chocolate
+- Leche Deslactosada
+- Canela
+
+CAFE — Especiales (4)
+- Filtrado
+- Matcha Latte
+- Iced Love Latte
+- Affogato
+
+SIN CAFE — Infusiones (5)
+- Te
+- Chocolatada Caliente
+- Chocolatada Fria
+- Submarino Grande
+- Submarino XL
+
+SIN CAFE — Jugos (2)
+- Jugo en Vaso
+- Jugo en Jarra
+
+SIN CAFE — Licuados (2)
+- Licuado en Vaso
+- Licuado en Jarra
+
+SIN CAFE — Otras opciones (5)
+- Aquarius (500 cc)
+- Coca Cola (350 cc)
+- Marinaro (500 cc)
+- Agua con Gas (500 cc)
+- Agua sin Gas (500 cc)
+
+PASTELERIA Y PANADERIA (10)
+- Budin — Frutos Rojos
+- Cookie — Brownie con Choco Blanco
+- Cookie — Vainilla con Chispas
+- Cookie — Red Velvet y Choco Blanco
+- Eclair — Chispas de Chocolate
+- Eclair — Frutos Rojos
+- Danesa Dulce — Frutos Rojos
+- Danesa Dulce — Frutas de Estacion
+- Danesa Dulce — Dulce de Leche
+- Tortilla
+- Vigilante / Factura
+- Medialuna de Manteca
+- Croissant Dulce — Chocotorta
+- Croissant Dulce — Banana y DDL
+
+OPCIONES SALADAS — Chipa XL (2)
+- Chipa XL — Queso Roquefort
+- Chipa XL — Salame
+
+OPCIONES SALADAS — Con jamon y queso (3)
+- Medialuna con Jamon y Queso
+- Tostado de Jamon y Queso
+- Croissant con Jamon y Queso
+
+OPCIONES SALADAS — Sandwich de miga (4)
+- Sandwich de Miga — Jamon y Queso
+- Sandwich de Miga — Palta y Queso
+- Sandwich de Miga — Atun, Huevo y Aceituna
+- Sandwich de Miga — Roquefort y Apio
+
+OPCIONES SALADAS — Sandwich especiales (2)
+- Especial — Jamon, Queso, Tomate y Huevo
+- Especial Vegano
+
+MENUS (8)
+- French Toast Clasica
+- French Toast de Nutella
+- Pancakes Veganos
+- Avocado Toast
+- Huevos Revueltos
+- Tostada de Temporada
+- Omelette du Fromage
+- Croque Madame
+
+PROMOS (11)
+- Promo Tortilla (2)
+- Promo Budin
+- Promo Chipa XL
+- Promo Cookie
+- Promo Medialunas (2)
+- Promo Tostadas con Untables
+- Promo Sandwich de Miga
+- Promo Croissant con JyQ
+- Promo Croissant Dulce
+- Promo Torta
+- Promo Ciabata / Focaccia de JyQ
+
+Total: 60 productos sin imagen

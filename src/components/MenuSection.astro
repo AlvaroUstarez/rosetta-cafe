@@ -1,0 +1,173 @@
+---
+import type { Product, Protocolo } from "../data/menu";
+import type { Locale } from "../i18n";
+import { t, tRecord } from "../i18n";
+import ProductCard from "./ProductCard.astro";
+
+export interface Props {
+  section: { id: string; label: { es: string; en: string }; subCategories?: { es: string[]; en: string[] } };
+  products?: Product[];
+  protocolo?: Protocolo;
+  sectionAccent?: string;
+  locale: Locale;
+}
+
+const { section, products, protocolo, sectionAccent, locale } = Astro.props;
+const sectionProducts = products ?? [];
+const label = tRecord(section.label, locale);
+const subCategoriesEs = section.subCategories?.es ?? [];
+const emptyMsg = t("menu.empty", locale);
+const protocoloTitle = protocolo ? tRecord(protocolo.title, locale) : "";
+const protocoloContent = protocolo ? tRecord(protocolo.content, locale) : "";
+---
+
+<section
+  class="menu-section"
+  id={`section-${section.id}`}
+  style={sectionAccent ? `--section-accent: ${sectionAccent}` : undefined}
+>
+  <h2 class="menu-section__heading">{label}</h2>
+
+  {
+    protocolo ? (
+      <div class="menu-section__protocolo">
+        <h3 class="menu-section__protocolo-title">{protocoloTitle}</h3>
+        <p class="menu-section__protocolo-content">{protocoloContent}</p>
+      </div>
+    ) : subCategoriesEs.length > 0 ? (
+      // Group products by sub-category
+      subCategoriesEs.map((sub, i) => {
+        const subLabel = locale === "en" && section.subCategories?.en?.[i] ? section.subCategories.en[i] : sub;
+        const subProducts = sectionProducts.filter((p) => p.subCategory === sub);
+        return (
+          <div class="menu-section__sub-group">
+            {subProducts.length > 0 && (
+              <>
+                <h3 class="menu-section__sub-heading">{subLabel}</h3>
+                <div class="menu-section__grid">
+                  {subProducts.map((product) => (
+                    <ProductCard product={product} locale={locale} />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        );
+      })
+    ) : sectionProducts.length > 0 ? (
+      // Flat product grid (no sub-categories)
+      <div class="menu-section__grid">
+        {sectionProducts.map((product) => (
+          <ProductCard product={product} locale={locale} />
+        ))}
+      </div>
+    ) : (
+      // Empty state
+      <p class="menu-section__empty">{emptyMsg}</p>
+    )
+  }
+</section>
+
+<style>
+  .menu-section {
+    padding: 3rem 1.25rem;
+    background: var(--section-accent, var(--color-surface));
+  }
+
+  .menu-section__heading {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    color: var(--color-primary);
+    text-align: center;
+    margin: 0 0 2rem;
+    scroll-margin-top: 6rem;
+  }
+
+  .menu-section__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .menu-section__sub-heading {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--color-secondary);
+    margin: 0 0 1rem;
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .menu-section__sub-group:first-of-type .menu-section__sub-heading {
+    border-top: none;
+  }
+
+  .menu-section__empty {
+    text-align: center;
+    color: var(--color-text);
+    font-size: 1.125rem;
+    padding: 3rem 1rem;
+    font-style: italic;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .menu-section__protocolo {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .menu-section__protocolo-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .menu-section__protocolo-content {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text);
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    border: 1px dashed var(--color-secondary);
+  }
+
+  /* ---- Responsive ---- */
+  @media (min-width: 768px) {
+    .menu-section {
+      padding: 4rem 2rem;
+    }
+
+    .menu-section__heading {
+      font-size: 2rem;
+    }
+
+    .menu-section__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .menu-section {
+      padding: 5rem 2rem;
+    }
+
+    .menu-section__heading {
+      font-size: 2.25rem;
+    }
+
+    .menu-section__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

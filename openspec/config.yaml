@@ -1,0 +1,48 @@
+# openspec/config.yaml
+schema: spec-driven
+
+context: |
+  Project: Rosetta Café de Especialidad
+  Stack: Astro 6 (static SPA, frontend-only)
+  Type: Menú web para café de especialidad con panadería y pastelería artesanal
+  Dependencies: Astro 6.3.7, TypeScript 6.0.3, Biome 2.4.15, @astrojs/check 0.9.9
+  Node: >=22.12.0
+  Estado: In progress — componentes principales implementados
+  Ritmo: Interactivo
+  PRs: ask-always
+  Review budget: 400 líneas
+
+rules:
+  proposal:
+    - Incluir alcance claro y límites del cambio
+  specs:
+    - Usar Given/When/Then para escenarios
+    - Usar keywords RFC 2119 (MUST, SHALL, SHOULD, MAY)
+  design:
+    - Incluir diagramas de secuencia para flujos complejos
+    - Documentar decisiones de arquitectura con rationale
+  tasks:
+    - Agrupar por fase, usar numeración jerárquica
+    - Mantener tareas completables en una sesión
+  apply:
+    - Seguir patrones existentes del código
+    tdd: false
+    test_command: ""
+  verify:
+    test_command: ""
+    build_command: "astro build"
+    coverage_threshold: 0
+  archive:
+    - Avisar antes de mergear deltas destructivos
+
+testing:
+  strict_tdd: false
+  runner: none
+  layers:
+    unit: false
+    integration: false
+    e2e: false
+  coverage: false
+  linter: biome
+  type_checker: typescript
+  formatter: biome
