@@ -1007,7 +1007,7 @@ export const products: Product[] = [
     },
     price: 9500,
     category: "menus",
-    image: "/images/products/menu-avocado-toast.webp",
+    image: "",
   },
   {
     id: "menu-huevos-revueltos",
@@ -1086,7 +1086,7 @@ export const products: Product[] = [
     },
     price: 6500,
     category: "promos",
-    image: "/images/products/promo-budin.webp",
+    image: "",
   },
   {
     id: "promo-chipa-xl",
