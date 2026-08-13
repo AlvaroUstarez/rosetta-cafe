@@ -22,6 +22,7 @@ export interface MenuCategory {
   id: Category;
   label: I18nRecord;
   subCategories?: { es: string[]; en: string[] };
+  listSubCategories?: string[];
 }
 
 export interface Protocolo {
@@ -37,6 +38,7 @@ export const categories: MenuCategory[] = [
       es: ["Calientes", "Fríos", "Adicionales", "Especiales"],
       en: ["Hot", "Cold", "Add-ons", "Specialty"],
     },
+    listSubCategories: ["Adicionales"],
   },
   {
     id: "sin-cafe",
@@ -45,6 +47,7 @@ export const categories: MenuCategory[] = [
       es: ["Infusiones", "Jugos", "Licuados", "Otras opciones"],
       en: ["Teas & Hot Drinks", "Juices", "Smoothies", "Other"],
     },
+    listSubCategories: ["Infusiones", "Jugos", "Licuados", "Otras opciones"],
   },
   {
     id: "pasteleria-panaderia",
@@ -106,7 +109,7 @@ export const products: Product[] = [
     price: 3300,
     category: "cafe",
     subCategory: "Calientes",
-    image: "",
+    image: "/images/products/espresso-leche-pequeno.webp",
   },
   {
     id: "espresso-leche-mediano",
@@ -118,7 +121,7 @@ export const products: Product[] = [
     price: 3900,
     category: "cafe",
     subCategory: "Calientes",
-    image: "",
+    image: "/images/products/espresso-leche-mediano.webp",
   },
   {
     id: "espresso-leche-grande",
@@ -156,7 +159,7 @@ export const products: Product[] = [
     price: 4200,
     category: "cafe",
     subCategory: "Fríos",
-    image: "",
+    image: "/images/products/iced-coffee.webp",
   },
   {
     id: "aerocano",
@@ -180,7 +183,7 @@ export const products: Product[] = [
     price: 4600,
     category: "cafe",
     subCategory: "Fríos",
-    image: "",
+    image: "/images/products/iced-latte.webp",
   },
   {
     id: "orange-coffee",
@@ -672,7 +675,7 @@ export const products: Product[] = [
     },
     price: 1800,
     category: "pasteleria-panaderia",
-    image: "",
+    image: "/images/products/medialuna-manteca.webp",
   },
   {
     id: "croissant-oreo",
@@ -786,7 +789,7 @@ export const products: Product[] = [
     price: 3300,
     category: "opciones-saladas",
     subCategory: "Chipa XL",
-    image: "",
+    image: "/images/products/chipa-roquefort.webp",
   },
   {
     id: "chipa-salame",
@@ -798,7 +801,7 @@ export const products: Product[] = [
     price: 3300,
     category: "opciones-saladas",
     subCategory: "Chipa XL",
-    image: "",
+    image: "/images/products/chipa-salame.webp",
   },
 
   // 🧀 OPCIONES SALADAS — Con jamón y queso
@@ -971,7 +974,7 @@ export const products: Product[] = [
     },
     price: 12600,
     category: "menus",
-    image: "",
+    image: "/images/products/menu-french-toast-clasica.webp",
   },
   {
     id: "menu-french-toast-nutella",
@@ -982,7 +985,7 @@ export const products: Product[] = [
     },
     price: 12600,
     category: "menus",
-    image: "",
+    image: "/images/products/menu-french-toast-nutella.webp",
   },
   {
     id: "menu-pancakes-veganos",
@@ -993,7 +996,7 @@ export const products: Product[] = [
     },
     price: 11500,
     category: "menus",
-    image: "",
+    image: "/images/products/menu-pancakes-veganos.webp",
   },
   {
     id: "menu-avocado-toast",
@@ -1004,7 +1007,7 @@ export const products: Product[] = [
     },
     price: 9500,
     category: "menus",
-    image: "",
+    image: "/images/products/menu-avocado-toast.webp",
   },
   {
     id: "menu-huevos-revueltos",
@@ -1059,7 +1062,7 @@ export const products: Product[] = [
     },
     price: 14000,
     category: "menus",
-    image: "",
+    image: "/images/products/menu-croque-madame.webp",
   },
 
   // 🏷️ PROMOS
@@ -1072,7 +1075,7 @@ export const products: Product[] = [
     },
     price: 5700,
     category: "promos",
-    image: "",
+    image: "/images/products/promo-tortilla.webp",
   },
   {
     id: "promo-budin",
@@ -1083,7 +1086,7 @@ export const products: Product[] = [
     },
     price: 6500,
     category: "promos",
-    image: "",
+    image: "/images/products/promo-budin.webp",
   },
   {
     id: "promo-chipa-xl",
@@ -1094,7 +1097,7 @@ export const products: Product[] = [
     },
     price: 6500,
     category: "promos",
-    image: "",
+    image: "/images/products/promo-chipa-xl.webp",
   },
   {
     id: "promo-cookie",
@@ -1171,7 +1174,7 @@ export const products: Product[] = [
     },
     price: 9900,
     category: "promos",
-    image: "",
+    image: "/images/products/promo-torta.webp",
   },
   {
     id: "promo-ciabata",

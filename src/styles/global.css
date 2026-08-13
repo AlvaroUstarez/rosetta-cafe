@@ -77,7 +77,7 @@ select {
 :root {
   --color-primary: #4a3728;
   --color-secondary: #c4956a;
-  --color-bg: #fdf8f3;
+  --color-bg: rgb(112, 140, 100);
   --color-surface: #f5ede4;
   --color-text: #2c1810;
   --color-text-light: #f5ede4;

@@ -3,9 +3,10 @@ import type { Product, Protocolo } from "../data/menu";
 import type { Locale } from "../i18n";
 import { t, tRecord } from "../i18n";
 import ProductCard from "./ProductCard.astro";
+import ProductListItem from "./ProductListItem.astro";
 
 export interface Props {
-  section: { id: string; label: { es: string; en: string }; subCategories?: { es: string[]; en: string[] } };
+  section: { id: string; label: { es: string; en: string }; subCategories?: { es: string[]; en: string[] }; listSubCategories?: string[] };
   products?: Product[];
   protocolo?: Protocolo;
   sectionAccent?: string;
@@ -16,6 +17,7 @@ const { section, products, protocolo, sectionAccent, locale } = Astro.props;
 const sectionProducts = products ?? [];
 const label = tRecord(section.label, locale);
 const subCategoriesEs = section.subCategories?.es ?? [];
+const listSubs = section.listSubCategories ?? [];
 const emptyMsg = t("menu.empty", locale);
 const protocoloTitle = protocolo ? tRecord(protocolo.title, locale) : "";
 const protocoloContent = protocolo ? tRecord(protocolo.content, locale) : "";
@@ -39,16 +41,25 @@ const protocoloContent = protocolo ? tRecord(protocolo.content, locale) : "";
       subCategoriesEs.map((sub, i) => {
         const subLabel = locale === "en" && section.subCategories?.en?.[i] ? section.subCategories.en[i] : sub;
         const subProducts = sectionProducts.filter((p) => p.subCategory === sub);
+        const useList = listSubs.includes(sub);
         return (
           <div class="menu-section__sub-group">
             {subProducts.length > 0 && (
               <>
                 <h3 class="menu-section__sub-heading">{subLabel}</h3>
-                <div class="menu-section__grid">
-                  {subProducts.map((product) => (
-                    <ProductCard product={product} locale={locale} />
-                  ))}
-                </div>
+                {useList ? (
+                  <div class="menu-section__list">
+                    {subProducts.map((product) => (
+                      <ProductListItem product={product} locale={locale} />
+                    ))}
+                  </div>
+                ) : (
+                  <div class="menu-section__grid">
+                    {subProducts.map((product) => (
+                      <ProductCard product={product} locale={locale} />
+                    ))}
+                  </div>
+                )}
               </>
             )}
           </div>
@@ -89,6 +100,15 @@ const protocoloContent = protocolo ? tRecord(protocolo.content, locale) : "";
     gap: 1.5rem;
     max-width: var(--max-width);
     margin: 0 auto;
+  }
+
+  .menu-section__list {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    padding: 0.5rem 1.25rem;
+    border: 1px solid var(--color-border);
   }
 
   .menu-section__sub-heading {
