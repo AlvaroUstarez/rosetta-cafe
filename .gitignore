@@ -28,3 +28,6 @@ pnpm-debug.log*
 
 # windows
 Thumbs.db
+
+# skill registry (auto-generated; lives in Engram)
+.atl/
