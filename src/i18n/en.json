@@ -1,4 +1,6 @@
 {
+  "meta.title": "Rosetta Café de Especialidad — Menu",
+  "meta.description": "The menu at Rosetta Café de Especialidad, a specialty coffee shop in Salta. Coffee, pastry, bakery and promos, at Balcarce 350.",
   "hero.tagline": "Where every bean tells its story",
   "footer.location.title": "Location",
   "footer.location.text": "Balcarce 350\nSalta, Argentina",
@@ -6,8 +8,5 @@
   "footer.hours.text": "Mon – Fri: 8:00 – 20:00\nSat – Sun: 9:00 – 22:00",
   "footer.social.title": "Follow Us",
   "footer.copyright": "Rosetta Café de Especialidad",
-  "nav.es": "ES",
-  "nav.en": "EN",
-  "menu.empty": "Coming Soon",
-  "protocolo.title": "Pet Friendly"
+  "menu.empty": "Coming Soon"
 }
