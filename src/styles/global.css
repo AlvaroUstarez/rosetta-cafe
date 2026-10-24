@@ -75,90 +75,57 @@ select {
 
 /* ---- Custom Properties (warm palette) ---- */
 :root {
-  --color-primary: #4a3728;
-  --color-secondary: #c4956a;
-  --color-bg: rgb(112, 140, 100);
+  /* Colour — one source of truth */
+  --color-primary: #4A3728;
+  --color-secondary: #8A5A2B;
+  --color-bg: #F7F3EC;
   --color-surface: #f5ede4;
-  --color-text: #2c1810;
-  --color-text-light: #f5ede4;
-  --color-border: #e8ddd3;
+  --color-text: #2C1810;
+  --color-text-light: #D4C5B5;
+  --color-border: #BAAE9B;
+  --color-border-inverse: #79604F;
+  --color-green: #708C64;
+  --color-green-ink: #4E6B44;
 
-  --font-heading: "Playfair Display", Georgia, serif;
-  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  /* Type families */
+  --font-heading: "Petrona", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-body: "Archivo", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
 
+  /* Type scale — one fluid base, six derived steps */
+  --text-base: clamp(1rem, 0.9633rem + 0.163vw, 1.0938rem);
+  --text-sm: calc(var(--text-base) / 1.25);
+  --text-lg: calc(var(--text-base) * 1.25);
+  --text-xl: calc(var(--text-base) * 1.5625);
+  --text-2xl: calc(var(--text-base) * 1.9531);
+  --text-3xl: calc(var(--text-base) * 2.4414);
+  --text-4xl: calc(var(--text-base) * 3.0518);
+
+  /* Rhythm and measure */
+  --leading: 1.5;
+  --leading-display: 1.15;
+  --measure: 68ch;
+
+  /* Layout */
   --max-width: 1100px;
+  --gutter: clamp(1.25rem, 4vw, 2rem);
+
+  /* Space */
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1.25rem;
+  --space-md: 2rem;
+  --space-xl: clamp(2.5rem, 6vw, 4rem);
 }
 
 html {
-  scroll-padding-top: 5rem;
-}
-
-/* ---- Section Nav ---- */
-.section-nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-  overflow-x: auto;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-}
-
-.section-nav__link {
-  flex-shrink: 0;
-  padding: 0.5rem 1.125rem;
-  border-radius: 999px;
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--color-text);
-  text-decoration: none;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
-  border: 1px solid var(--color-border);
-  cursor: pointer;
-}
-
-.section-nav__link:hover,
-.section-nav__link:focus-visible {
-  background: var(--color-secondary);
-  color: #fff;
-  border-color: var(--color-secondary);
-  outline: none;
-}
-
-/* ---- Menu Sections Layout ---- */
-.menu-sections > .menu-section:nth-child(odd) {
-  background: var(--section-accent, var(--color-surface));
-}
-
-.menu-sections > .menu-section:nth-child(even) {
-  background: var(--section-accent, var(--color-bg));
-}
-
-/* ---- Sub-category heading ---- */
-.sub-category__heading {
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
-  color: var(--color-secondary);
-  margin: 0 0 1rem;
-  max-width: var(--max-width);
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--color-border);
+  scroll-padding-top: 4.5rem;
 }
 
 /* ---- Base Typography ---- */
 body {
   font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading);
   background-color: var(--color-bg);
   color: var(--color-text);
 }
