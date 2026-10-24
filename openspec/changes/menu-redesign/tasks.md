@@ -217,13 +217,13 @@ One review. It cannot be split: `Product.image` changing type breaks the cell th
 ### 2.7 S2A verification and human review pass
 
 - Files: none (read-only).
-- Do: run `npx astro check` (0 errors) and `npm run build` (2 pages). Confirm `dist/_astro/` holds the derivatives (31 × 4 = 124 product files, 4 hero widths, 1 OG image = **129 encoded images**) and that `dist/images/` does **not** exist.
+- Do: run `npx astro check` (0 errors) and `npm run build` (2 pages). Confirm `dist/_astro/` holds the derivatives and that `dist/images/` does **not** exist. **Expected count, corrected in S1 by measurement**: `<Image widths={[…4]}>` emits one derivative per requested width **plus a default `src` at the source width** (S1 proof: the hero alone produced 6 files — 4 widths + a 3024 px fallback of 801 KB + the OG image), so the total is **31 × 5 = 155 product files + 5 hero + 1 OG = 161**, not 129. A count of 129 is a failure: it means the default `src` fallback vanished. Allow one fewer per asset whose source width coincides with a requested width.
 - **Human review checklist:**
   - All 31 photographs render at their own aspect ratio — the 0.75 portraits stay portrait, and `espresso-leche-mediano` (1.4538) and `promo-chipa-xl` (1.3333) stay landscape. Nothing is cropped or squashed.
   - The 63 imageless products show flat glazed tiles with a visible 1 px inner rim — no gradient, no broken-image icon, no missing-image look.
   - All four fills are visible in context (walnut, ochre, ceramic, green) and no two adjacent categories share one.
   - The card chrome, shadow, and hover lift are **still present** — that is expected in S2A; S2C removes them.
-  - The build is visibly slower than before; this is the accepted cost of 129 encoded images (design D2), not a regression.
+  - The build is visibly slower than before; this is the accepted cost of ≈161 encoded images (design D2), not a regression.
   - The PR body states **31 renames** and the changed-line count separately (design D3).
 - Verify: the commands above plus the checklist signed off.
 
@@ -378,7 +378,7 @@ Closes Institutional Footer, the interactive-state half of Warm Color Palette, a
 ### 6.3 PR bodies and delivery notes
 
 - Files: none (PR descriptions).
-- Do: each PR states its slice boundary, dependencies, changed-line count, and rename count **separately**; S2A also states the 129-derivative build cost (D2), the `sharp` declaration (P1), and that `/images/*` public URLs stop existing (D4); the chain's last PR states that `dist/images/` is gone and a stale-file purge is needed if the host deploys incrementally.
+- Do: each PR states its slice boundary, dependencies, changed-line count, and rename count **separately**; S2A also states the ≈161-derivative build cost (D2), the `sharp` declaration (P1), and that `/images/*` public URLs stop existing (D4); the chain's last PR states that `dist/images/` is gone and a stale-file purge is needed if the host deploys incrementally.
 - Verify: every PR body carries the chain context and the two counts.
 
 ### 6.4 Traceability sign-off
@@ -437,7 +437,7 @@ Everything below exists in this project. Nothing else is proposed.
 | **T7** | S1 leaves sections green, so sub-category headings (1.40) and the section heading (3.01) still fail after S1 | Expected; S1 is not judged on pairs that close in S2B |
 | **T8** | Moving the hero out of `public/` breaks the build until `Hero.astro` and `BaseLayout.astro` stop referencing `/images/hero.webp` | 1.4–1.6 are one commit |
 | **T9** | Both pages stay duplicated (design D11) | 3.6 edits both; the S2B diff must be compared between the two files |
-| **T10** | Build time and 129 encoded images; `sharp` is only an optional dependency of `astro` today | P1 declaration in 2.6; build cost stated in the S2A PR body |
+| **T10** | Build time and ≈161 encoded images; `sharp` is only an optional dependency of `astro` today | P1 declaration in 2.6; build cost stated in the S2A PR body |
 | **T11** | `tabular-nums` coverage is unproven (design D6) | §4.4 browser gate, with the Petrona 500 contingency |
 | **T12** | 32 binary renames inflate S2A's file list ~7× | Reported in their own budget column and in the PR body (design D3) |
 

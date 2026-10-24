@@ -360,7 +360,7 @@ export interface Product {
 | Consequence | Detail |
 | --- | --- |
 | Modules in the graph | 31 product assets + 1 hero, imported statically by `menu.ts` and `BaseLayout.astro`. |
-| Derivatives per build | 31 × 4 widths = 124 product files, plus 4 hero widths and 1 OG image = **129 encoded images**. |
+| Derivatives per build | 31 × 5 = 155 product files (4 requested widths + the default `src` at source width), plus 5 hero files (4 widths + 1 default) and 1 OG image = **161 encoded images**. The original 129 ignored the per-asset default `src` that `<Image widths>` always emits; measured in S1 (hero: 6 files for 4 widths + 1 OG). |
 | Build time | Materially higher than today's copy-only build. First `npm run build` and the first dev-server request for each image now run `sharp`. This is a real cost, not a footnote. |
 | `dist/` shape | Derivatives land in `dist/_astro/`; `dist/images/` disappears entirely. |
 | Repository size | Unchanged: the 23.7 MB of originals move, they are not copied, and git keeps them in history either way. |
@@ -381,7 +381,7 @@ export interface Product {
    │
    ├─ ProductCell.astro  <Image widths={[…]} sizes={…} format="webp" quality={80}>
    │        │
-   │        ├─ astro:assets → sharp → dist/_astro/<name>.<hash>.<w>.<hash>.webp   × 4 widths
+   │        ├─ astro:assets → sharp → dist/_astro/<name>.<hash>.<w>.<hash>.webp   × 4 widths + 1 default `src`
    │        └─ emits <img src srcset sizes width height loading="lazy" decoding="async">
    │
    ├─ Hero.astro  <Image priority widths={[320,480,640,960]}>
@@ -722,7 +722,7 @@ Per slice: the six former failures are legible in context; prices form a column;
 | # | Risk | Mitigation |
 | --- | --- | --- |
 | **D1** | **`sharp` is an optional dependency of `astro`** (`^0.34.0`), not a declared one. It is installed at 0.34.5, so the pipeline works today; `npm ci --omit=optional`, or a future Astro that drops the optional dep, breaks every image with an unhelpful error. | Recommend declaring `sharp` explicitly in `devDependencies`. That is a `package.json` change and needs owner approval — see §14. Until then, note it in the slice-2 PR body. |
-| **D2** | **Build time.** 129 encoded images per build instead of 32 file copies. First build and first dev-server request per image now run `sharp`. | Accepted as the cost of the optimization. Stated in the slice-2 PR so a slow build is not mistaken for a regression. |
+| **D2** | **Build time.** ≈161 encoded images per build instead of 32 file copies. First build and first dev-server request per image now run `sharp`. | Accepted as the cost of the optimization. Stated in the slice-2 PR so a slow build is not mistaken for a regression. |
 | **D3** | **Diff surface.** 32 binary renames inflate the file list of a ~240-line slice; a reviewer scanning file count will misjudge the size. | The PR body must state the rename count and the changed-line count separately. |
 | **D4** | **Dead public URLs.** `/images/hero.webp` and `/images/products/*.webp` stop existing. | Nothing in the repo references them after the change. Any externally shared link dies; the host must purge stale files if it deploys incrementally. |
 | **D5** | **Font swap reflow.** Replacing Playfair/Inter with Petrona/Archivo changes fallback metrics, and the CDN cannot carry `size-adjust` overrides. | Bounded to a line of text in the hero; the photographs carry intrinsic dimensions so no image CLS. If it proves visible, the §3.5 self-hosting alternative removes it at the cost of two dependencies. |
