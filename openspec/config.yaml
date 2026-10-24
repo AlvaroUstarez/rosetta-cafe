@@ -30,7 +30,7 @@ rules:
     test_command: ""
   verify:
     test_command: ""
-    build_command: "astro build"
+    build_command: "npm run build"
     coverage_threshold: 0
   archive:
     - Avisar antes de mergear deltas destructivos
@@ -46,3 +46,12 @@ testing:
   linter: biome
   type_checker: typescript
   formatter: biome
+  commands:
+    dev: "npm run dev"
+    build: "npm run build"
+    preview: "npm run preview"
+    type_check: "npx astro check"
+  broken_on_this_machine:
+    linter: "npx biome check src/ # exit -1073741515 (0xC0000135, missing DLL)"
+    formatter: "npx biome format --write src/ # same native binary failure"
+  manual_format_convention: "2-space indent, LF line endings, double quotes (per biome.json)"
