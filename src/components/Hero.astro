@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import heroImage from "../assets/hero.webp";
 import type { Locale } from "../i18n";
 import { t } from "../i18n";
 
@@ -10,60 +12,79 @@ const { locale } = Astro.props;
 ---
 
 <section class="hero">
-  <div class="hero__content">
-    <h1 class="hero__title">Rosetta Café de Especialidad</h1>
-    <p class="hero__tagline">{t("hero.tagline", locale)}</p>
+  <div class="hero__inner">
+    <div class="hero__content">
+      <h1 class="hero__title">Rosetta Café de Especialidad</h1>
+      <p class="hero__tagline">{t("hero.tagline", locale)}</p>
+    </div>
+    <div class="hero__media">
+      <Image
+        src={heroImage}
+        alt=""
+        priority
+        widths={[320, 480, 640, 960]}
+        sizes="(min-width: 1440px) 352px, (min-width: 768px) 27vw, 100vw"
+        format="webp"
+        quality={80}
+      />
+    </div>
   </div>
 </section>
 
 <style>
   .hero {
-    min-height: 100dvh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background:
-      linear-gradient(135deg, rgba(44, 24, 16, 0.6) 0%, rgba(44, 24, 16, 0.35) 100%),
-      url("/images/hero.webp") center / cover no-repeat;
-    padding: 2rem 1.25rem;
-    position: relative;
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+    padding-inline: var(--gutter);
   }
 
-  .hero__content {
-    max-width: 720px;
+  .hero__inner {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
   }
 
   .hero__title {
     font-family: var(--font-heading);
-    font-size: 2.5rem;
-    color: #fdf8f3;
-    margin: 0 0 1rem;
-    line-height: 1.15;
+    font-size: var(--text-3xl);
+    font-weight: 500;
+    line-height: var(--leading-display);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-xs);
   }
 
   .hero__tagline {
-    font-family: var(--font-body);
-    font-size: 1.25rem;
-    color: #d4c5b5;
+    font-size: var(--text-lg);
+    line-height: var(--leading);
+    color: var(--color-text);
     margin: 0;
-    font-weight: 300;
-    letter-spacing: 0.02em;
+  }
+
+  .hero__media {
+    width: 100%;
+  }
+
+  .hero__media :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   @media (min-width: 768px) {
-    .hero__title {
-      font-size: 3.5rem;
+    .hero__inner {
+      grid-template-columns: minmax(0, 1fr) clamp(16rem, 26vw, 22rem);
     }
 
-    .hero__tagline {
-      font-size: 1.5rem;
+    .hero__title {
+      font-size: var(--text-4xl);
     }
   }
 
-  @media (min-width: 1024px) {
-    .hero__title {
-      font-size: 4rem;
+  @media (max-width: 767px) {
+    .hero__media {
+      width: calc(100% + 2 * var(--gutter));
+      margin-inline: calc(-1 * var(--gutter));
     }
   }
 </style>
