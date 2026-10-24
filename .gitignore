@@ -31,3 +31,6 @@ Thumbs.db
 
 # skill registry (auto-generated; lives in Engram)
 .atl/
+
+# codegraph local index (regenerated per checkout)
+.codegraph/
