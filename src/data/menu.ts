@@ -1,4 +1,36 @@
+import type { ImageMetadata } from "astro";
 import type { I18nRecord } from "../i18n";
+import budinLimonAmapola from "../assets/products/budin-limon-amapola.webp";
+import chipaQueso from "../assets/products/chipa-queso.webp";
+import chipaRoquefort from "../assets/products/chipa-roquefort.webp";
+import chipaSalame from "../assets/products/chipa-salame.webp";
+import croissantOreo from "../assets/products/croissant-oreo.webp";
+import especialCrudo from "../assets/products/especial-crudo.webp";
+import especialMortadela from "../assets/products/especial-mortadela.webp";
+import espressoLecheGrande from "../assets/products/espresso-leche-grande.webp";
+import espressoLecheMediano from "../assets/products/espresso-leche-mediano.webp";
+import espressoLechePequeno from "../assets/products/espresso-leche-pequeno.webp";
+import espresso from "../assets/products/espresso.webp";
+import icedCappuccino from "../assets/products/iced-cappuccino.webp";
+import icedCoffee from "../assets/products/iced-coffee.webp";
+import icedLatte from "../assets/products/iced-latte.webp";
+import medialunaManteca from "../assets/products/medialuna-manteca.webp";
+import menuBowlYogurt from "../assets/products/menu-bowl-yogurt.webp";
+import menuChipaPrensado from "../assets/products/menu-chipa-prensado.webp";
+import menuCroqueMadame from "../assets/products/menu-croque-madame.webp";
+import menuCroqueMonsieur from "../assets/products/menu-croque-monsieur.webp";
+import menuFrenchToastClasica from "../assets/products/menu-french-toast-clasica.webp";
+import menuFrenchToastNutella from "../assets/products/menu-french-toast-nutella.webp";
+import menuPancakesVeganos from "../assets/products/menu-pancakes-veganos.webp";
+import panChocolate from "../assets/products/pan-chocolate.webp";
+import pavlova from "../assets/products/pavlova.webp";
+import promoChipaXl from "../assets/products/promo-chipa-xl.webp";
+import promoTorta from "../assets/products/promo-torta.webp";
+import promoTortilla from "../assets/products/promo-tortilla.webp";
+import rollCanelaManzana from "../assets/products/roll-canela-manzana.webp";
+import rollFrutosRojos from "../assets/products/roll-frutos-rojos.webp";
+import tortaRicotta from "../assets/products/torta-ricotta.webp";
+import tortaSemanal from "../assets/products/torta-semanal.webp";
 
 export type Category =
   | "cafe"
@@ -15,7 +47,7 @@ export interface Product {
   price: number;
   category: Category;
   subCategory?: string;
-  image: string;
+  image: ImageMetadata | "";
 }
 
 export interface MenuCategory {
@@ -85,7 +117,7 @@ export const products: Product[] = [
     price: 3300,
     category: "cafe",
     subCategory: "Calientes",
-    image: "/images/products/espresso.webp",
+    image: espresso,
   },
   {
     id: "long-black",
@@ -109,7 +141,7 @@ export const products: Product[] = [
     price: 3300,
     category: "cafe",
     subCategory: "Calientes",
-    image: "/images/products/espresso-leche-pequeno.webp",
+    image: espressoLechePequeno,
   },
   {
     id: "espresso-leche-mediano",
@@ -121,7 +153,7 @@ export const products: Product[] = [
     price: 3900,
     category: "cafe",
     subCategory: "Calientes",
-    image: "/images/products/espresso-leche-mediano.webp",
+    image: espressoLecheMediano,
   },
   {
     id: "espresso-leche-grande",
@@ -133,7 +165,7 @@ export const products: Product[] = [
     price: 4200,
     category: "cafe",
     subCategory: "Calientes",
-    image: "/images/products/espresso-leche-grande.webp",
+    image: espressoLecheGrande,
   },
   {
     id: "espresso-leche-xl",
@@ -159,7 +191,7 @@ export const products: Product[] = [
     price: 4200,
     category: "cafe",
     subCategory: "Fríos",
-    image: "/images/products/iced-coffee.webp",
+    image: icedCoffee,
   },
   {
     id: "aerocano",
@@ -183,7 +215,7 @@ export const products: Product[] = [
     price: 4600,
     category: "cafe",
     subCategory: "Fríos",
-    image: "/images/products/iced-latte.webp",
+    image: icedLatte,
   },
   {
     id: "orange-coffee",
@@ -319,7 +351,7 @@ export const products: Product[] = [
     price: 5500,
     category: "cafe",
     subCategory: "Especiales",
-    image: "/images/products/iced-cappuccino.webp",
+    image: icedCappuccino,
   },
   {
     id: "iced-love-latte",
@@ -532,7 +564,7 @@ export const products: Product[] = [
     },
     price: 6800,
     category: "pasteleria-panaderia",
-    image: "/images/products/torta-semanal.webp",
+    image: tortaSemanal,
   },
   {
     id: "budin-limon-amapola",
@@ -543,7 +575,7 @@ export const products: Product[] = [
     },
     price: 3600,
     category: "pasteleria-panaderia",
-    image: "/images/products/budin-limon-amapola.webp",
+    image: budinLimonAmapola,
   },
   {
     id: "budin-frutos-rojos",
@@ -675,7 +707,7 @@ export const products: Product[] = [
     },
     price: 1800,
     category: "pasteleria-panaderia",
-    image: "/images/products/medialuna-manteca.webp",
+    image: medialunaManteca,
   },
   {
     id: "croissant-oreo",
@@ -686,7 +718,7 @@ export const products: Product[] = [
     },
     price: 6800,
     category: "pasteleria-panaderia",
-    image: "/images/products/croissant-oreo.webp",
+    image: croissantOreo,
   },
   {
     id: "croissant-chocotorta",
@@ -719,7 +751,7 @@ export const products: Product[] = [
     },
     price: 5500,
     category: "pasteleria-panaderia",
-    image: "/images/products/roll-canela-manzana.webp",
+    image: rollCanelaManzana,
   },
   {
     id: "roll-frutos-rojos",
@@ -730,7 +762,7 @@ export const products: Product[] = [
     },
     price: 5500,
     category: "pasteleria-panaderia",
-    image: "/images/products/roll-frutos-rojos.webp",
+    image: rollFrutosRojos,
   },
   {
     id: "pan-chocolate",
@@ -741,7 +773,7 @@ export const products: Product[] = [
     },
     price: 4800,
     category: "pasteleria-panaderia",
-    image: "/images/products/pan-chocolate.webp",
+    image: panChocolate,
   },
   {
     id: "pavlova",
@@ -752,7 +784,7 @@ export const products: Product[] = [
     },
     price: 3800,
     category: "pasteleria-panaderia",
-    image: "/images/products/pavlova.webp",
+    image: pavlova,
   },
   {
     id: "torta-ricotta",
@@ -763,7 +795,7 @@ export const products: Product[] = [
     },
     price: 4200,
     category: "pasteleria-panaderia",
-    image: "/images/products/torta-ricotta.webp",
+    image: tortaRicotta,
   },
 
   // 🧀 OPCIONES SALADAS — Chipa XL
@@ -777,7 +809,7 @@ export const products: Product[] = [
     price: 3300,
     category: "opciones-saladas",
     subCategory: "Chipa XL",
-    image: "/images/products/chipa-queso.webp",
+    image: chipaQueso,
   },
   {
     id: "chipa-roquefort",
@@ -789,7 +821,7 @@ export const products: Product[] = [
     price: 3300,
     category: "opciones-saladas",
     subCategory: "Chipa XL",
-    image: "/images/products/chipa-roquefort.webp",
+    image: chipaRoquefort,
   },
   {
     id: "chipa-salame",
@@ -801,7 +833,7 @@ export const products: Product[] = [
     price: 3300,
     category: "opciones-saladas",
     subCategory: "Chipa XL",
-    image: "/images/products/chipa-salame.webp",
+    image: chipaSalame,
   },
 
   // 🧀 OPCIONES SALADAS — Con jamón y queso
@@ -915,7 +947,7 @@ export const products: Product[] = [
     price: 9800,
     category: "opciones-saladas",
     subCategory: "Sándwich especiales",
-    image: "/images/products/especial-crudo.webp",
+    image: especialCrudo,
   },
   {
     id: "especial-mortadela",
@@ -927,7 +959,7 @@ export const products: Product[] = [
     price: 9800,
     category: "opciones-saladas",
     subCategory: "Sándwich especiales",
-    image: "/images/products/especial-mortadela.webp",
+    image: especialMortadela,
   },
   {
     id: "especial-vegano",
@@ -952,7 +984,7 @@ export const products: Product[] = [
     },
     price: 8500,
     category: "menus",
-    image: "/images/products/menu-chipa-prensado.webp",
+    image: menuChipaPrensado,
   },
   {
     id: "menu-bowl-yogurt",
@@ -963,7 +995,7 @@ export const products: Product[] = [
     },
     price: 10000,
     category: "menus",
-    image: "/images/products/menu-bowl-yogurt.webp",
+    image: menuBowlYogurt,
   },
   {
     id: "menu-french-toast-clasica",
@@ -974,7 +1006,7 @@ export const products: Product[] = [
     },
     price: 12600,
     category: "menus",
-    image: "/images/products/menu-french-toast-clasica.webp",
+    image: menuFrenchToastClasica,
   },
   {
     id: "menu-french-toast-nutella",
@@ -985,7 +1017,7 @@ export const products: Product[] = [
     },
     price: 12600,
     category: "menus",
-    image: "/images/products/menu-french-toast-nutella.webp",
+    image: menuFrenchToastNutella,
   },
   {
     id: "menu-pancakes-veganos",
@@ -996,7 +1028,7 @@ export const products: Product[] = [
     },
     price: 11500,
     category: "menus",
-    image: "/images/products/menu-pancakes-veganos.webp",
+    image: menuPancakesVeganos,
   },
   {
     id: "menu-avocado-toast",
@@ -1051,7 +1083,7 @@ export const products: Product[] = [
     },
     price: 13600,
     category: "menus",
-    image: "/images/products/menu-croque-monsieur.webp",
+    image: menuCroqueMonsieur,
   },
   {
     id: "menu-croque-madame",
@@ -1062,7 +1094,7 @@ export const products: Product[] = [
     },
     price: 14000,
     category: "menus",
-    image: "/images/products/menu-croque-madame.webp",
+    image: menuCroqueMadame,
   },
 
   // 🏷️ PROMOS
@@ -1075,7 +1107,7 @@ export const products: Product[] = [
     },
     price: 5700,
     category: "promos",
-    image: "/images/products/promo-tortilla.webp",
+    image: promoTortilla,
   },
   {
     id: "promo-budin",
@@ -1097,7 +1129,7 @@ export const products: Product[] = [
     },
     price: 6500,
     category: "promos",
-    image: "/images/products/promo-chipa-xl.webp",
+    image: promoChipaXl,
   },
   {
     id: "promo-cookie",
@@ -1174,7 +1206,7 @@ export const products: Product[] = [
     },
     price: 9900,
     category: "promos",
-    image: "/images/products/promo-torta.webp",
+    image: promoTorta,
   },
   {
     id: "promo-ciabata",

@@ -1,5 +1,6 @@
 ---
-import { categoryGradients } from "../data/category-visual";
+import { Image } from "astro:assets";
+import { glazeTiles } from "../data/category-visual";
 import type { Product } from "../data/menu";
 import type { Locale } from "../i18n";
 import { tRecord } from "../i18n";
@@ -12,45 +13,39 @@ export interface Props {
 const { product, locale } = Astro.props;
 const name = tRecord(product.name, locale);
 const description = tRecord(product.description, locale);
-const gradient = categoryGradients[product.category];
+const glaze = glazeTiles[product.category];
 ---
 
-<div class="product-card">
+<div class="product-cell">
   {
     product.image ? (
-      <>
-        <img
-          class="product-card__image"
-          src={product.image}
-          alt={name}
-          loading="lazy"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='block'"
-        />
-        <div
-          class="product-card__image product-card__image--fallback"
-          style={`background: ${gradient}`}
-          role="img"
-          aria-label={name}
-        />
-      </>
+      <Image
+        class="product-cell__image"
+        src={product.image}
+        alt={name}
+        widths={[240, 360, 480, 720]}
+        sizes="(min-width: 1100px) 346px, (min-width: 1024px) 32vw, (min-width: 768px) 46vw, calc(100vw - 2.5rem)"
+        format="webp"
+        quality={80}
+      />
     ) : (
       <div
-        class="product-card__image"
-        style={`background: ${gradient}`}
+        class="product-cell__glaze"
         role="img"
         aria-label={name}
+        style={`--glaze-fill: ${glaze.fill}; --glaze-rim: ${glaze.rim}`}
       />
     )
   }
-  <div class="product-card__body">
-    <h3 class="product-card__name">{name}</h3>
-    <p class="product-card__description">{description}</p>
-    <span class="product-card__price">$ {product.price}</span>
+  <div class="product-cell__body">
+    <h3 class="product-cell__name">{name}</h3>
+    <p class="product-cell__description">{description}</p>
+    <span class="product-cell__price">$ {product.price}</span>
   </div>
 </div>
 
 <style>
-  .product-card {
+  .product-cell {
     background: var(--color-surface);
     border-radius: 12px;
     overflow: hidden;
@@ -62,37 +57,38 @@ const gradient = categoryGradients[product.category];
     flex-direction: column;
   }
 
-  .product-card:hover {
+  .product-cell:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
 
-  .product-card__image {
+  .product-cell__image {
     width: 100%;
-    height: 180px;
-    object-fit: cover;
+    height: auto;
     display: block;
   }
 
-  .product-card__image--fallback {
-    display: none;
+  .product-cell__glaze {
+    aspect-ratio: 3 / 4;
+    background-color: var(--glaze-fill);
+    box-shadow: inset 0 0 0 1px var(--glaze-rim);
   }
 
-  .product-card__body {
+  .product-cell__body {
     padding: 1rem 1.25rem 1.25rem;
     display: flex;
     flex-direction: column;
     flex: 1;
   }
 
-  .product-card__name {
+  .product-cell__name {
     font-family: var(--font-heading);
     font-size: 1.125rem;
     color: var(--color-primary);
     margin: 0 0 0.375rem;
   }
 
-  .product-card__description {
+  .product-cell__description {
     font-size: 0.875rem;
     color: var(--color-text);
     line-height: 1.5;
@@ -100,7 +96,7 @@ const gradient = categoryGradients[product.category];
     flex: 1;
   }
 
-  .product-card__price {
+  .product-cell__price {
     font-weight: 600;
     font-size: 1rem;
     color: var(--color-secondary);
