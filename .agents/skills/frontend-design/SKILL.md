@@ -1,8 +1,8 @@
-# Frontend Design — Full Guidance
-
-> Provenance: verbatim body of the `frontend-design` skill from Anthropic's skills repository
-> (https://github.com/anthropics/skills/tree/main/skills/frontend-design). Licensed Apache-2.0 —
-> see ../LICENSE.txt. Frontmatter moved to ../SKILL.md; the text below is unmodified.
+---
+name: frontend-design
+description: Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults.
+license: Complete terms in LICENSE.txt
+---
 
 # Frontend Design
 
