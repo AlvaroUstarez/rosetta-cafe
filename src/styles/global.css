@@ -3,7 +3,12 @@
    Tokens, reset, base typography
    ------------------------------------------------------------
    The site is a printed menu brought to screen: paper, ink,
-   one metal accent, two typefaces, hairlines instead of chrome.
+   two earthy accents, two typefaces, hairlines instead of chrome.
+
+   Each accent is split by role, because neither survives AA on
+   paper as text: the bright value is decorative, the dark one is
+   the only value permitted on type. Ratios are measured, not
+   eyeballed — see the numbers beside each pair.
    ============================================================ */
 
 *,
@@ -40,9 +45,15 @@ ol[role="list"] {
   --ink: #17130f;
   --ink-muted: #6a635b;
   --rule: #e3dfd7;
-  --brass: #9a7634;
-  --brass-ink: #6f5320;
   --wash: #f2efe9;
+
+  /* Terracotta carries warmth and money. On paper: 4.68:1 decorative, 5.76:1 text. */
+  --terracotta: #b4553a;
+  --terracotta-ink: #a04934;
+
+  /* The brand green, taken from the mark. On paper: 2.65:1 decorative, 5.81:1 text. */
+  --green: #86a479;
+  --green-ink: #4a6b3f;
 
   /* Two roles: serif names the content, sans carries structure and numbers. */
   --font-display: "Newsreader", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
@@ -145,12 +156,12 @@ select {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--brass) 26%, var(--paper));
+  background: color-mix(in srgb, var(--terracotta) 24%, var(--paper));
   color: var(--ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--brass-ink);
+  outline: 2px solid var(--terracotta-ink);
   outline-offset: 3px;
 }
 
