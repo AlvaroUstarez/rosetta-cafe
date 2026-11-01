@@ -30,8 +30,8 @@ const priceLabel =
           <Image
             src={product.image}
             alt=""
-            widths={[72, 144, 216]}
-            sizes="(max-width: 480px) 56px, 72px"
+            widths={[80, 160, 240]}
+            sizes="(max-width: 480px) 64px, 80px"
             format="webp"
             quality={80}
             loading="lazy"
@@ -67,7 +67,6 @@ const priceLabel =
   .menu-item__thumb {
     aspect-ratio: 1;
     overflow: hidden;
-    border-radius: 50%;
     background: var(--wash);
   }
 
@@ -114,7 +113,6 @@ const priceLabel =
 
   @media (max-width: 480px) {
     .menu-item--plated {
-      grid-template-columns: 3.5rem minmax(0, 1fr);
       column-gap: var(--space-xs);
     }
 

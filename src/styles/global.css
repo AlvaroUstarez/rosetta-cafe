@@ -93,8 +93,16 @@ ol[role="list"] {
   --space-xl: clamp(3rem, 7vw, 5rem);
   --space-2xl: clamp(4rem, 9vw, 7rem);
 
-  --thumb: 4.5rem;
+  /* Thumbnail column. Square, one step up from the type so the photo reads
+     as an object rather than a bullet. Narrow phones step it down once. */
+  --thumb: 5rem;
   --ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (max-width: 480px) {
+  :root {
+    --thumb: 4rem;
+  }
 }
 
 html {

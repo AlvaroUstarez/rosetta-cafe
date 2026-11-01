@@ -58,11 +58,11 @@ Each product MUST render as a single ledger row inside a `<ul role="list">`, as 
 
 The name and the price MUST share a two-column grid — `minmax(0, 1fr) auto` with `align-items: baseline` — so the price baseline follows the name's first line regardless of description length. The price MUST be right-aligned, MUST set `font-variant-numeric: tabular-nums`, MUST NOT wrap, and MUST resolve to `--terracotta-ink`.
 
-A product with a non-empty `image` MUST render its photograph through the build pipeline — an `astro:assets` `<Image>` — inside a square box carrying intrinsic `width`/`height`, a `srcset`, and `sizes`, masked to a circle by `border-radius: 50%` with the image filling it via `object-fit: cover`. A raw `<img>` pointing at a file in `public/images/products/` MUST NOT be used. The thumbnail MUST carry `alt=""` because the product name is adjacent and visible in the same row. A product with `image = ""` MUST render no image element and no decorative substitute: either an empty cell reserved for alignment, or no cell at all, per the `Sub-Category Dividers` requirement.
+A product with a non-empty `image` MUST render its photograph through the build pipeline — an `astro:assets` `<Image>` — inside a square box carrying intrinsic `width`/`height`, a `srcset`, and `sizes`, with the image filling it via `object-fit: cover` and no shape mask. A raw `<img>` pointing at a file in `public/images/products/` MUST NOT be used. The thumbnail MUST carry `alt=""` because the product name is adjacent and visible in the same row. A product with `image = ""` MUST render no image element and no decorative substitute: either an empty cell reserved for alignment, or no cell at all, per the `Sub-Category Dividers` requirement.
 
-The circular mask applies to the thumbnail box, not to the row: the row MUST remain a full-width band with no radius of its own.
+The thumbnail box MUST have square corners: `border-radius` MUST resolve to `0`. The absence of a shape mask applies to the thumbnail box, not to the row: the row MUST remain a full-width band with no radius of its own.
 
-(Previously: this content lived under "Product Cards" — cream container, 12px radius, soft shadow, identical hover lift, a fixed 180px image box with `object-fit: cover`, a `categoryGradients` `<div>` fallback, and an image-on-top/text-below layout. Later, the thumbnail was a square box with no shape mask, and the price's colour was unspecified, so it inherited `--ink`)
+(Previously: this content lived under "Product Cards" — cream container, 12px radius, soft shadow, identical hover lift, a fixed 180px image box with `object-fit: cover`, a `categoryGradients` `<div>` fallback, and an image-on-top/text-below layout. Later, the thumbnail was a square box with no shape mask, then a circle masked by `border-radius: 50%`, and the price's colour was unspecified, so it inherited `--ink`)
 
 #### Scenario: Row renders with a photograph
 
@@ -72,11 +72,11 @@ The circular mask applies to the thumbnail box, not to the row: the row MUST rem
 - AND the thumbnail carries an empty `alt`
 - AND the translated name, description, and price are rendered in the row body
 
-#### Scenario: Thumbnail is a circle
+#### Scenario: Thumbnail is a square
 
 - GIVEN a row that displays a thumbnail
 - WHEN inspecting the thumbnail box
-- THEN `border-radius` resolves to `50%`
+- THEN `border-radius` resolves to `0`
 - AND the image fills the box with `object-fit: cover`
 - AND the row container itself carries no border-radius
 
@@ -128,7 +128,7 @@ The circular mask applies to the thumbnail box, not to the row: the row MUST rem
 
 Products MUST be laid out as a single column of full-width rows at every breakpoint. A multi-column product grid MUST NOT be used, and equal cell height MUST NOT be required. Rows MUST stack vertically inside their sub-category group and MUST NOT be wrapped into columns on tablet or desktop.
 
-A row that displays a thumbnail MUST reserve a fixed thumbnail column — `--thumb` (4.5rem) on desktop and 3.5rem at widths of 480px and below — with the text occupying the remaining width. A row without a thumbnail column MUST let its text span the full row width.
+A row that displays a thumbnail MUST reserve a fixed thumbnail column — `--thumb` (5rem) on desktop and 4rem at widths of 480px and below, declared once as a token in `src/styles/global.css` — with the text occupying the remaining width. A row without a thumbnail column MUST let its text span the full row width.
 
 (Previously: "Responsive Product Grid" mandated CSS Grid with 1 column on mobile, 2 at ≥768px, and 3 at ≥1024px, with consistent cell height across a row)
 
@@ -143,7 +143,7 @@ A row that displays a thumbnail MUST reserve a fixed thumbnail column — `--thu
 
 - GIVEN a group whose rows display thumbnails
 - WHEN inspecting the row grid at 1280px and at 375px
-- THEN the thumbnail column measures 4.5rem and 3.5rem respectively
+- THEN the thumbnail column measures 5rem and 4rem respectively
 - AND the text occupies the remaining width without overflow
 
 #### Scenario: Group without photographs uses the full width
