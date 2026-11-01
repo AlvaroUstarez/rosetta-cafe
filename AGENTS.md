@@ -27,9 +27,10 @@ Static menu website for Rosetta Café (specialty coffee shop, Salta, Argentina).
   - Menu content → inline `{ es, en }` objects (`I18nRecord`) inside `src/data/menu.ts`, resolved with `tRecord(value, locale)`.
 - **Locale threading is manual.** Each page hardcodes `const locale` (`src/pages/index.astro` → `"es"`, `src/pages/en/index.astro` → `"en"`) and passes it as a prop through every component. No Astro i18n helpers are used in code. Adding a locale means a new page + threading, not just config (`astro.config.mjs` declares `es` as default with no prefix).
 - `src/data/menu.ts` is the single source of truth: `categories`, `products` (94 — README's "88" is stale), `protocolo` (pet-friendly notice). A product's `category` MUST match an id in `categories`.
-- Subcategories: `subCategories` holds parallel `es`/`en` arrays — keep the same order across locales. `listSubCategories` marks subcategories rendered as a text list (`ProductListItem`) instead of image cards (`ProductCard`); `MenuSection.astro` switches between them.
-- `image: ""` is a valid state meaning "no photo" — the card renders without it. Not an error.
+- Subcategories: `subCategories` holds parallel `es`/`en` arrays — keep the same order across locales. The menu renders as a single ledger of rows (`ProductListItem.astro`); a subcategory group shows the thumbnail column only when at least one of its products has an image.
+- `image: ""` is a valid state meaning "no photo" — the row renders without a thumbnail. Not an error.
 - `BaseLayout.astro` wraps both pages; components live in `src/components/` and all receive `locale` as a prop.
+- **Design system:** all tokens live in `src/styles/global.css` (`:root` — paper/ink/brass palette, type scale, spacing). Typefaces are Newsreader (display) and IBM Plex Sans (text), loaded from Google Fonts in `BaseLayout.astro`. Styling is Astro scoped `<style>` only; no Tailwind.
 
 ## Workflow
 
@@ -38,6 +39,9 @@ Static menu website for Rosetta Café (specialty coffee shop, Salta, Argentina).
 
 ## Project Skills
 
-- `frontend-design` — `.opencode/skills/frontend-design/SKILL.md`. Auto-discovered by OpenCode from `.opencode/skills/` (no config needed). Vendored from Anthropic's skills repository under Apache-2.0: keep the bundled `LICENSE.txt`, and the full original guidance lives in its `references/`.
+- Skills live in `.agents/skills/` and are auto-discovered by OpenCode; `.opencode/skills/` is the retired location.
+- `frontend-design` — `.agents/skills/frontend-design/SKILL.md`. Vendored from Anthropic's skills repository under Apache-2.0: keep the bundled `LICENSE.txt`.
+- `web-design-guidelines` — `.agents/skills/web-design-guidelines/SKILL.md`, from `vercel-labs/agent-skills`.
+- `skills-lock.json` pins both sources and content hashes. Regenerating it is a deliberate act, not a side effect of editing a skill.
 
 [[memory.md]]

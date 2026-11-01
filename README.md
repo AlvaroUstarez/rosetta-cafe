@@ -5,21 +5,22 @@ Menú web estático para café de especialidad con panadería y pastelería arte
 ## Stack
 
 - **Astro 6** — SSG, i18n nativo (ES/EN)
-- **TypeScript** — datos tipados de 88 productos
+- **TypeScript** — datos tipados de 94 productos
 - **Biome** — lint + format
 
 ## Estructura
 
 ```
 src/
-├── components/    ProductCard, MenuSection, SectionNav, Hero, Footer
-├── data/          menu.ts (88 productos), category-visual.ts
+├── assets/        hero.webp, products/ (31 fotos WebP)
+├── components/    Hero, SectionNav, MenuSection, ProductListItem, Footer
+├── data/          menu.ts (94 productos)
 ├── i18n/          es.json, en.json, index.ts
 ├── layouts/       BaseLayout
 ├── pages/         index.astro (ES), en/index.astro (EN)
 └── styles/        global.css
 public/
-└── images/products/  17 fotos WebP
+└── favicon.ico, favicon.svg
 ```
 
 ## Desarrollo
