@@ -1,96 +1,124 @@
 ---
+import { Image } from "astro:assets";
 import type { Product } from "../data/menu";
 import type { Locale } from "../i18n";
-import { tRecord } from "../i18n";
+import { formatPrice, tRecord } from "../i18n";
 
 export interface Props {
   product: Product;
   locale: Locale;
+  /** When any item in the list has a photo, every row keeps the photo column. */
+  plated?: boolean;
 }
 
-const { product, locale } = Astro.props;
+const { product, locale, plated = false } = Astro.props;
 const name = tRecord(product.name, locale);
 const description = tRecord(product.description, locale);
-const freeLabel = locale === "en" ? "Free" : "Gratis";
+const priceLabel =
+  product.price === 0
+    ? locale === "en"
+      ? "Free"
+      : "Gratis"
+    : formatPrice(product.price, locale);
 ---
 
-<div class="product-list-item">
-  <div class="product-list-item__row">
-    <span class="product-list-item__name">{name}</span>
-    <span class="product-list-item__leader" aria-hidden="true"></span>
-    <span class="product-list-item__price">
-      {product.price === 0 ? freeLabel : `$ ${product.price}`}
-    </span>
+<li class:list={["menu-item", { "menu-item--plated": plated }]}>
+  {
+    plated &&
+      (product.image ? (
+        <div class="menu-item__thumb">
+          <Image
+            src={product.image}
+            alt=""
+            widths={[72, 144, 216]}
+            sizes="(max-width: 480px) 56px, 72px"
+            format="webp"
+            quality={80}
+            loading="lazy"
+          />
+        </div>
+      ) : (
+        <div class="menu-item__thumb menu-item__thumb--empty" aria-hidden="true" />
+      ))
+  }
+
+  <div class="menu-item__body">
+    <div class="menu-item__line">
+      <p class="menu-item__name">{name}</p>
+      <span class="menu-item__price">{priceLabel}</span>
+    </div>
+    {description && <p class="menu-item__description">{description}</p>}
   </div>
-  {description && (
-    <p class="product-list-item__description">{description}</p>
-  )}
-</div>
+</li>
 
 <style>
-  .product-list-item {
-    padding: 0.75rem 0;
-    transition: background-color 0.2s ease;
-    border-bottom: 1px solid var(--color-border);
+  .menu-item {
+    padding-block: var(--space-sm);
+    border-bottom: 1px solid var(--rule);
   }
 
-  .product-list-item:last-child {
-    border-bottom: none;
+  .menu-item--plated {
+    display: grid;
+    grid-template-columns: var(--thumb) minmax(0, 1fr);
+    column-gap: var(--space-sm);
+    align-items: start;
   }
 
-  .product-list-item:hover {
-    background-color: rgba(0, 0, 0, 0.02);
-    border-radius: 6px;
+  .menu-item__thumb {
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--wash);
   }
 
-  .product-list-item__row {
-    display: flex;
+  .menu-item__thumb--empty {
+    background: transparent;
+  }
+
+  .menu-item__thumb :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .menu-item__line {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: baseline;
-    gap: 0.5rem;
+    column-gap: var(--space-md);
+    padding-top: 0.1rem;
   }
 
-  .product-list-item__name {
-    font-family: var(--font-heading);
-    font-size: 1rem;
-    color: var(--color-primary);
+  .menu-item__name {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  .menu-item__price {
+    font-size: var(--text-base);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
     white-space: nowrap;
-    flex-shrink: 0;
   }
 
-  .product-list-item__leader {
-    flex: 1;
-    border-bottom: 1px dotted var(--color-border);
-    min-width: 1.5rem;
-    margin-bottom: 0.25em;
-  }
-
-  .product-list-item__price {
-    font-weight: 600;
-    font-size: 1rem;
-    color: var(--color-secondary);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .product-list-item__description {
-    font-size: 0.8125rem;
-    color: var(--color-text);
-    opacity: 0.65;
+  .menu-item__description {
+    margin-top: var(--space-3xs);
+    max-width: var(--measure-tight);
+    font-size: var(--text-sm);
     line-height: 1.5;
-    margin: 0.25rem 0 0;
+    color: var(--ink-muted);
   }
 
   @media (max-width: 480px) {
-    .product-list-item__row {
-      flex-wrap: wrap;
+    .menu-item--plated {
+      grid-template-columns: 3.5rem minmax(0, 1fr);
+      column-gap: var(--space-xs);
     }
 
-    .product-list-item__leader {
-      display: none;
-    }
-
-    .product-list-item__price {
-      margin-left: auto;
+    .menu-item__name {
+      font-size: var(--text-md);
     }
   }
 </style>

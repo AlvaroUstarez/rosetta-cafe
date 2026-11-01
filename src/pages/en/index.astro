@@ -8,38 +8,24 @@ import type { Locale } from "../../i18n";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const locale: Locale = "en";
-
-const sectionAccents: Record<string, string> = {
-  cafe: "rgb(112, 140, 100)",
-  "sin-cafe": "rgb(112, 140, 100)",
-  "pasteleria-panaderia": "rgb(112, 140, 100)",
-  "opciones-saladas": "rgb(112, 140, 100)",
-  menus: "rgb(112, 140, 100)",
-  promos: "rgb(112, 140, 100)",
-};
 ---
 
 <BaseLayout locale={locale}>
   <Hero locale={locale} />
   <SectionNav categories={categories} locale={locale} />
-  <main class="menu-sections">
-    {categories.map((cat) => {
-      const sectionProducts = products.filter(
-        (p) => p.category === cat.id,
-      );
-      return (
+  <main id="main" tabindex="-1">
+    {
+      categories.map((category) => (
         <MenuSection
-          section={cat}
-          products={sectionProducts}
-          sectionAccent={sectionAccents[cat.id]}
+          section={category}
+          products={products.filter((product) => product.category === category.id)}
           locale={locale}
         />
-      );
-    })}
+      ))
+    }
     <MenuSection
       section={{ id: "protocolo", label: protocolo.title }}
       protocolo={protocolo}
-      sectionAccent="rgb(112, 140, 100)"
       locale={locale}
     />
   </main>

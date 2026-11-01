@@ -1,7 +1,7 @@
 ---
 import type { MenuCategory } from "../data/menu";
 import type { Locale } from "../i18n";
-import { tRecord } from "../i18n";
+import { t, tRecord } from "../i18n";
 
 export interface Props {
   categories: MenuCategory[];
@@ -9,101 +9,180 @@ export interface Props {
 }
 
 const { categories, locale } = Astro.props;
-const otherLocale = locale === "es" ? "en" : "es";
+const otherLocale: Locale = locale === "es" ? "en" : "es";
 const otherPath = otherLocale === "en" ? "/en/" : "/";
+const otherLabel = t(otherLocale === "en" ? "lang.en" : "lang.es", locale);
 ---
 
-<nav class="section-nav">
-  {categories.map((cat) => (
-    <a href={`#section-${cat.id}`} class="section-nav__link">
-      {tRecord(cat.label, locale)}
+<nav class="section-nav" aria-label={t("nav.label", locale)}>
+  <div class="section-nav__inner">
+    <ul class="section-nav__list" role="list">
+      {categories.map((cat) => (
+        <li>
+          <a href={`#section-${cat.id}`} class="section-nav__link">
+            {tRecord(cat.label, locale)}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <a
+      class="section-nav__lang"
+      href={otherPath}
+      hreflang={otherLocale}
+      lang={otherLocale}
+      aria-label={otherLabel}
+    >
+      {otherLocale.toUpperCase()}
     </a>
-  ))}
-  <span class="section-nav__spacer" aria-hidden="true"></span>
-  <a
-    href={otherPath}
-    class={`section-nav__lang ${locale === otherLocale ? "" : "section-nav__lang--active"}`}
-    aria-label={otherLocale === "en" ? "Switch to English" : "Cambiar a español"}
-  >
-    {otherLocale.toUpperCase()}
-  </a>
+  </div>
 </nav>
+
+<script>
+  interface SectionLink {
+    link: HTMLAnchorElement;
+    section: HTMLElement;
+  }
+
+  const entries: SectionLink[] = [];
+
+  for (const link of document.querySelectorAll<HTMLAnchorElement>(
+    ".section-nav__link",
+  )) {
+    const href = link.getAttribute("href") ?? "";
+    const section =
+      href.length > 1 ? document.getElementById(href.slice(1)) : null;
+
+    if (section) {
+      entries.push({ link, section });
+    }
+  }
+
+  if (entries.length > 0) {
+    let active = "";
+
+    const mark = (id: string) => {
+      if (id === active) return;
+      active = id;
+
+      for (const entry of entries) {
+        if (entry.section.id === id) {
+          entry.link.setAttribute("aria-current", "true");
+        } else {
+          entry.link.removeAttribute("aria-current");
+        }
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (records) => {
+        const first = records
+          .filter((record) => record.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+
+        if (first) {
+          mark(first.target.id);
+        }
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+    );
+
+    for (const entry of entries) {
+      observer.observe(entry.section);
+    }
+  }
+</script>
 
 <style>
   .section-nav {
     position: sticky;
     top: 0;
     z-index: 100;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-nav__inner {
     display: flex;
-    gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
+    align-items: stretch;
+    gap: var(--space-md);
+    max-width: var(--container-wide);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .section-nav__list {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    gap: clamp(1rem, 2.4vw, 1.75rem);
     overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
+    scrollbar-width: none;
+  }
+
+  .section-nav__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* On narrow screens the index scrolls: fade the cut so it reads as "more". */
+  @media (max-width: 1023px) {
+    .section-nav__list {
+      -webkit-mask-image: linear-gradient(
+        to right,
+        #000 calc(100% - 2.5rem),
+        transparent
+      );
+      mask-image: linear-gradient(
+        to right,
+        #000 calc(100% - 2.5rem),
+        transparent
+      );
+    }
+  }
+
+  .section-nav__list > li {
+    display: flex;
   }
 
   .section-nav__link {
-    flex-shrink: 0;
-    padding: 0.5rem 1.125rem;
-    border-radius: 999px;
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    padding-block: 0.95rem;
+    border-bottom: 1px solid transparent;
+    color: var(--ink-muted);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    letter-spacing: 0.01em;
     text-decoration: none;
+    white-space: nowrap;
     transition:
-      background 0.2s,
-      color 0.2s,
-      border-color 0.2s;
-    border: 1px solid var(--color-border);
-    cursor: pointer;
+      color 0.18s var(--ease),
+      border-color 0.18s var(--ease);
   }
 
-  .section-nav__link:hover,
-  .section-nav__link:focus-visible {
-    background: var(--color-secondary);
-    color: #fff;
-    border-color: var(--color-secondary);
-    outline: none;
+  .section-nav__link:hover {
+    color: var(--ink);
   }
 
-  .section-nav__link:active {
-    background: var(--color-primary);
-    color: #fff;
-    border-color: var(--color-primary);
-  }
-
-  .section-nav__spacer {
-    flex: 1;
-    min-width: 0.5rem;
+  .section-nav__link[aria-current="true"] {
+    color: var(--ink);
+    border-bottom-color: var(--brass);
   }
 
   .section-nav__lang {
+    display: flex;
+    align-items: center;
     flex-shrink: 0;
-    padding: 0.5rem 0.875rem;
-    border-radius: 999px;
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-    font-weight: 600;
+    padding-left: clamp(1rem, 2vw, 1.5rem);
+    border-left: 1px solid var(--rule);
+    color: var(--ink);
+    font-size: var(--text-sm);
+    letter-spacing: 0.08em;
     text-decoration: none;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
-    border: 1px solid var(--color-border);
-    cursor: pointer;
+    transition: color 0.18s var(--ease);
   }
 
-  .section-nav__lang--active {
-    background: var(--color-primary);
-    color: #fff;
-    border-color: var(--color-primary);
-  }
-
-  .section-nav__lang:not(.section-nav__lang--active):hover {
-    background: var(--color-secondary);
-    color: #fff;
-    border-color: var(--color-secondary);
-    outline: none;
+  .section-nav__lang:hover {
+    color: var(--brass-ink);
   }
 </style>

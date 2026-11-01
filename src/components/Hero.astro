@@ -9,82 +9,85 @@ export interface Props {
 }
 
 const { locale } = Astro.props;
+const kind = t("hero.kind", locale);
+const tagline = t("hero.tagline", locale);
 ---
 
-<section class="hero">
-  <div class="hero__inner">
-    <div class="hero__content">
-      <h1 class="hero__title">Rosetta Café de Especialidad</h1>
-      <p class="hero__tagline">{t("hero.tagline", locale)}</p>
-    </div>
-    <div class="hero__media">
-      <Image
-        src={heroImage}
-        alt=""
-        priority
-        widths={[320, 480, 640, 960]}
-        sizes="(min-width: 1440px) 352px, (min-width: 768px) 27vw, 100vw"
-        format="webp"
-        quality={80}
-      />
-    </div>
+<header class="masthead">
+  <div class="masthead__inner">
+    <h1 class="masthead__name">
+      Rosetta
+      <span class="masthead__kind">{kind}</span>
+    </h1>
+    <p class="masthead__tagline">{tagline}</p>
   </div>
-</section>
+
+  <div class="masthead__plate">
+    <Image
+      src={heroImage}
+      alt=""
+      priority
+      widths={[480, 720, 1080, 1440]}
+      sizes="(min-width: 1336px) 1144px, (min-width: 768px) calc(100vw - 7rem), calc(100vw - 2.5rem)"
+      format="webp"
+      quality={82}
+    />
+  </div>
+</header>
 
 <style>
-  .hero {
-    max-width: var(--max-width);
+  .masthead {
+    max-width: var(--container-wide);
     margin-inline: auto;
-    padding-block: clamp(2rem, 5vw, 3.5rem);
-    padding-inline: var(--gutter);
+    padding: clamp(2.5rem, 7vw, 5rem) var(--gutter) 0;
   }
 
-  .hero__inner {
-    display: grid;
-    gap: clamp(1.5rem, 4vw, 3rem);
-    align-items: center;
-  }
-
-  .hero__title {
-    font-family: var(--font-heading);
+  .masthead__name {
+    font-family: var(--font-display);
     font-size: var(--text-3xl);
-    font-weight: 500;
+    font-weight: 300;
     line-height: var(--leading-display);
-    color: var(--color-primary);
-    margin: 0 0 var(--space-xs);
+    letter-spacing: -0.03em;
+    color: var(--ink);
   }
 
-  .hero__tagline {
-    font-size: var(--text-lg);
-    line-height: var(--leading);
-    color: var(--color-text);
-    margin: 0;
-  }
-
-  .hero__media {
-    width: 100%;
-  }
-
-  .hero__media :global(img) {
-    width: 100%;
-    height: auto;
+  .masthead__kind {
     display: block;
+    margin-top: 0.85em;
+    font-family: var(--font-text);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+    color: var(--brass-ink);
+  }
+
+  .masthead__tagline {
+    margin-top: clamp(1.25rem, 3vw, 1.75rem);
+    max-width: 26ch;
+    font-family: var(--font-display);
+    font-size: var(--text-tagline);
+    font-weight: 300;
+    line-height: 1.35;
+    color: var(--ink-muted);
+  }
+
+  .masthead__plate {
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--wash);
+  }
+
+  .masthead__plate :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   @media (min-width: 768px) {
-    .hero__inner {
-      grid-template-columns: minmax(0, 1fr) clamp(16rem, 26vw, 22rem);
-    }
-
-    .hero__title {
-      font-size: var(--text-4xl);
-    }
-  }
-
-  @media (max-width: 767px) {
-    .hero__media {
-      width: calc(100% + 2 * var(--gutter));
-      margin-inline: calc(-1 * var(--gutter));
+    .masthead__plate {
+      aspect-ratio: 21 / 9;
     }
   }
 </style>

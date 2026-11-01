@@ -18,3 +18,16 @@ export function tRecord(
   if (typeof value === "string") return value;
   return value[locale];
 }
+
+/**
+ * Menu prices are Argentine pesos without cents. Formatting them through
+ * Intl keeps the thousands separator correct per locale ("$ 3.300" / "$3,300").
+ */
+export function formatPrice(price: number, locale: Locale): string {
+  return new Intl.NumberFormat(locale === "es" ? "es-AR" : "en-US", {
+    style: "currency",
+    currency: "ARS",
+    currencyDisplay: "narrowSymbol",
+    maximumFractionDigits: 0,
+  }).format(price);
+}

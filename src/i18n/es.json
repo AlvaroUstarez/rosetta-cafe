@@ -1,7 +1,12 @@
 {
   "meta.title": "Rosetta Café de Especialidad — Menú",
   "meta.description": "Menú de Rosetta Café de Especialidad, café de especialidad en Salta. Café, pastelería, panadería y promos, en Balcarce 350.",
+  "a11y.skip": "Ir al menú",
+  "hero.kind": "Café de especialidad",
   "hero.tagline": "Donde cada grano cuenta su historia",
+  "nav.label": "Secciones del menú",
+  "lang.en": "Ver el menú en inglés",
+  "lang.es": "Ver el menú en español",
   "footer.location.title": "Ubicación",
   "footer.location.text": "Balcarce 350\nSalta, Argentina",
   "footer.hours.title": "Horarios",

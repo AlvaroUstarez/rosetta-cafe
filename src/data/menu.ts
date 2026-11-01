@@ -54,7 +54,6 @@ export interface MenuCategory {
   id: Category;
   label: I18nRecord;
   subCategories?: { es: string[]; en: string[] };
-  listSubCategories?: string[];
 }
 
 export interface Protocolo {
@@ -70,7 +69,6 @@ export const categories: MenuCategory[] = [
       es: ["Calientes", "Fríos", "Adicionales", "Especiales"],
       en: ["Hot", "Cold", "Add-ons", "Specialty"],
     },
-    listSubCategories: ["Adicionales"],
   },
   {
     id: "sin-cafe",
@@ -79,7 +77,6 @@ export const categories: MenuCategory[] = [
       es: ["Infusiones", "Jugos", "Licuados", "Otras opciones"],
       en: ["Teas & Hot Drinks", "Juices", "Smoothies", "Other"],
     },
-    listSubCategories: ["Infusiones", "Jugos", "Licuados", "Otras opciones"],
   },
   {
     id: "pasteleria-panaderia",

@@ -15,14 +15,16 @@ const title = t("meta.title", locale);
 const description = t("meta.description", locale);
 const ogLocale = locale === "es" ? "es_AR" : "en_US";
 const selfPath = locale === "es" ? "/" : "/en/";
+const skipLabel = t("a11y.skip", locale);
 
 const ogImage = await getImage({
   src: heroImage,
-  width: 900,
+  width: 1200,
   format: "webp",
-  quality: 80,
+  quality: 82,
 });
 ---
+
 <!DOCTYPE html>
 <html lang={locale}>
   <head>
@@ -30,7 +32,8 @@ const ogImage = await getImage({
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#F7F3EC" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#FBFAF8" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage.src} />
@@ -43,10 +46,11 @@ const ogImage = await getImage({
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Petrona:wght@500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&display=swap"
     />
   </head>
   <body>
+    <a class="skip-link" href="#main">{skipLabel}</a>
     <slot />
   </body>
 </html>
