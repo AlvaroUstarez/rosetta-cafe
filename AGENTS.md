@@ -19,6 +19,7 @@ Static menu website for Rosetta Café (specialty coffee shop, Salta, Argentina).
 - `.atl/` is an auto-generated skill registry: gitignored, never commit or hand-edit.
 - `dist/` and `.astro/` are gitignored build output.
 - `faltan-imagenes.txt` tracks products still missing photos (source of truth for that gap).
+- **`src/assets/logo-mark.webp` is a crop of a screenshot, not a logo file.** Its source is `WhatsApp Image 2026-11-01 at 00.44.13.jpeg` in the repo root — a 720×1600 capture of the café's Instagram profile with IG chrome and a shop photo. The mark was extracted with a 480×480 box at `(120, 400)` whose four corners all sample `#8aa97d`, i.e. entirely inside the green disc, then resized to 512×512. It is clean at the 96px the masthead renders it at, but it is interpolated from a lossy JPEG: do not scale it past ~200px and do not use it for print. A real PNG/SVG is still needed. The screenshot itself is untracked and must never be committed.
 
 ## Architecture (non-obvious parts)
 
@@ -30,7 +31,8 @@ Static menu website for Rosetta Café (specialty coffee shop, Salta, Argentina).
 - Subcategories: `subCategories` holds parallel `es`/`en` arrays — keep the same order across locales. The menu renders as a single ledger of rows (`ProductListItem.astro`); a subcategory group shows the thumbnail column only when at least one of its products has an image.
 - `image: ""` is a valid state meaning "no photo" — the row renders without a thumbnail. Not an error.
 - `BaseLayout.astro` wraps both pages; components live in `src/components/` and all receive `locale` as a prop.
-- **Design system:** all tokens live in `src/styles/global.css` (`:root` — paper/ink/brass palette, type scale, spacing). Typefaces are Newsreader (display) and IBM Plex Sans (text), loaded from Google Fonts in `BaseLayout.astro`. Styling is Astro scoped `<style>` only; no Tailwind.
+- **Design system:** all tokens live in `src/styles/global.css` (`:root` — paper/ink field, two accents, type scale, spacing). Typefaces are Newsreader (display) and IBM Plex Sans (text), loaded from Google Fonts in `BaseLayout.astro`. Styling is Astro scoped `<style>` only; no Tailwind.
+- **Both accents are split by role — never collapse them.** `--terracotta` (4.68:1 on paper) and `--green` (`#86a479`, 2.65:1) are decorative only; `--terracotta-ink` (5.76:1) and `--green-ink` (5.81:1) are the only values allowed on text. Terracotta owns money and position (prices, active nav underline, selection, focus ring); green owns identity (kind label, `<h3>`, protocolo border, language-switcher hover). Using `--green` on type ships an AA failure.
 
 ## Workflow
 
