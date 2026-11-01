@@ -12,7 +12,9 @@ The system MUST provide a sticky horizontal navigation bar linking to vertically
 
 The nav MAY mark the section currently in view by setting `aria-current="true"` on the corresponding link, using an `IntersectionObserver`. That marking MUST be progressive enhancement: with JavaScript disabled, every link MUST still navigate correctly and no link MUST be left in a stale active state.
 
-(Previously: the requirement did not address the nav's background opacity, its localized label, or an active-section marker)
+The active marker MUST be drawn as a 2px bottom border in `--terracotta` beneath a label in `--ink`. The language switcher's hover colour MUST resolve to `--green-ink`.
+
+(Previously: the requirement did not address the nav's background opacity, its localized label, or an active-section marker; later it left the marker's colour unspecified, which resolved to the retired brass token)
 
 #### Scenario: First section visible on load
 
@@ -34,6 +36,7 @@ The nav MAY mark the section currently in view by setting `aria-current="true"` 
 - WHEN the scroll-spy settles
 - THEN that section's link carries `aria-current="true"`
 - AND no other link carries it
+- AND its bottom border resolves to `--terracotta`
 
 #### Scenario: No-JavaScript fallback
 
@@ -53,19 +56,36 @@ The nav MAY mark the section currently in view by setting `aria-current="true"` 
 
 Each product MUST render as a single ledger row inside a `<ul role="list">`, as an `<li>` element. A row MUST display the product name resolved via `tRecord(product.name, locale)`, its price formatted for the active locale, and its description resolved via `tRecord(product.description, locale)` when that description is non-empty. A row MUST NOT be rendered as a card: no background colour, border-radius, or box-shadow MAY be applied to the row container, and no hover transform, scale, or shadow transition MAY be applied.
 
-The name and the price MUST share a two-column grid — `minmax(0, 1fr) auto` with `align-items: baseline` — so the price baseline follows the name's first line regardless of description length. The price MUST be right-aligned, MUST set `font-variant-numeric: tabular-nums`, and MUST NOT wrap.
+The name and the price MUST share a two-column grid — `minmax(0, 1fr) auto` with `align-items: baseline` — so the price baseline follows the name's first line regardless of description length. The price MUST be right-aligned, MUST set `font-variant-numeric: tabular-nums`, MUST NOT wrap, and MUST resolve to `--terracotta-ink`.
 
-A product with a non-empty `image` MUST render its photograph through the build pipeline — an `astro:assets` `<Image>` — as a square thumbnail carrying intrinsic `width`/`height`, a `srcset`, and `sizes`. A raw `<img>` pointing at a file in `public/images/products/` MUST NOT be used. The thumbnail MUST carry `alt=""` because the product name is adjacent and visible in the same row. A product with `image = ""` MUST render no image element and no decorative substitute: either an empty cell reserved for alignment, or no cell at all, per the `Sub-Category Dividers` requirement.
+A product with a non-empty `image` MUST render its photograph through the build pipeline — an `astro:assets` `<Image>` — inside a square box carrying intrinsic `width`/`height`, a `srcset`, and `sizes`, masked to a circle by `border-radius: 50%` with the image filling it via `object-fit: cover`. A raw `<img>` pointing at a file in `public/images/products/` MUST NOT be used. The thumbnail MUST carry `alt=""` because the product name is adjacent and visible in the same row. A product with `image = ""` MUST render no image element and no decorative substitute: either an empty cell reserved for alignment, or no cell at all, per the `Sub-Category Dividers` requirement.
 
-(Previously: this content lived under "Product Cards" — cream container, 12px radius, soft shadow, identical hover lift, a fixed 180px image box with `object-fit: cover`, a `categoryGradients` `<div>` fallback, and an image-on-top/text-below layout)
+The circular mask applies to the thumbnail box, not to the row: the row MUST remain a full-width band with no radius of its own.
+
+(Previously: this content lived under "Product Cards" — cream container, 12px radius, soft shadow, identical hover lift, a fixed 180px image box with `object-fit: cover`, a `categoryGradients` `<div>` fallback, and an image-on-top/text-below layout. Later, the thumbnail was a square box with no shape mask, and the price's colour was unspecified, so it inherited `--ink`)
 
 #### Scenario: Row renders with a photograph
 
 - GIVEN a product whose `image` is a non-empty imported image module
 - WHEN its row is rendered into the built page
-- THEN an `<img>` element is emitted as a square thumbnail with `srcset`, `sizes`, `width`, and `height`
+- THEN an `<img>` element is emitted inside a square box with `srcset`, `sizes`, `width`, and `height`
 - AND the thumbnail carries an empty `alt`
 - AND the translated name, description, and price are rendered in the row body
+
+#### Scenario: Thumbnail is a circle
+
+- GIVEN a row that displays a thumbnail
+- WHEN inspecting the thumbnail box
+- THEN `border-radius` resolves to `50%`
+- AND the image fills the box with `object-fit: cover`
+- AND the row container itself carries no border-radius
+
+#### Scenario: Price carries the money accent
+
+- GIVEN any row with a non-zero price
+- WHEN inspecting the price element
+- THEN its colour resolves to `--terracotta-ink`
+- AND it is right-aligned, sets `tabular-nums`, and does not wrap
 
 #### Scenario: Row renders without a photograph
 
@@ -224,9 +244,11 @@ The thumbnail column MUST be decided per sub-category group, not per row: a grou
 
 Each menu section MUST be delimited by a hairline rule at its top edge and identified by its name resolved via `tRecord(section.label, locale)` as an `<h2>`. A section MUST NOT paint a background block, and adjacent sections MUST NOT be distinguished by alternating background colours. Section identity MUST come from the rule and the label only. A section MUST NOT receive a per-section accent value from the page.
 
-The protocolo section MUST render its content as a note — a left border in the accent colour over the `--wash` ground — and MUST NOT render product rows or a duplicated heading.
+Sub-category headings MUST resolve to `--green-ink`.
 
-(Previously: headers were required to "alternate background color or use a decorative element from the warm color palette to visually separate stacked sections", and pages passed a `sectionAccent` to every section)
+The protocolo section MUST render its content as a note — a 2px left border in `--green` over the `--wash` ground — and MUST NOT render product rows or a duplicated heading.
+
+(Previously: headers were required to "alternate background color or use a decorative element from the warm color palette to visually separate stacked sections", and pages passed a `sectionAccent` to every section. Later, the protocolo note's border was described only as "a left border in the accent colour" and sub-category headings had no specified colour; both resolved to the retired brass tokens)
 
 #### Scenario: Section header renders locale-aware name
 
@@ -243,9 +265,17 @@ The protocolo section MUST render its content as a note — a left border in the
 - THEN both resolve to the same page background
 - AND neither section carries a per-section accent value
 
+#### Scenario: Sub-category headings carry the green
+
+- GIVEN a section that declares sub-categories
+- WHEN inspecting an `<h3>` heading
+- THEN its colour resolves to `--green-ink`
+- AND it does not resolve to `--green`
+
 #### Scenario: Protocolo section renders translated content
 
 - GIVEN the Protocolo section and `locale = "en"`
 - WHEN the section renders
 - THEN it displays the English pet-friendly text once
 - AND no product rows are rendered inside it
+- AND its left border resolves to `--green`

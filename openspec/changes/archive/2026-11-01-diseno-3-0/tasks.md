@@ -56,3 +56,7 @@
 - [ ] 7.2 Decide whether the cropped screenshot stays in the repository root. It is untracked and never committed; once a real asset exists it is dead weight.
 - [ ] 7.3 (Carried from `2026-11-01-menu-ledger-redesign`) Wire the three footer social links to real URLs.
 - [ ] 7.4 (Carried) Decide whether `openspec/changes/menu-redesign/` is archived as superseded or deleted.
+
+## 8. Archive
+
+Archived on 2026-11-01. The five MODIFIED deltas were applied to `openspec/specs/homepage-layout/spec.md` and `openspec/specs/product-menu/spec.md` before the move, so the canonical specs and the shipped code agree. `i18n` was not touched.

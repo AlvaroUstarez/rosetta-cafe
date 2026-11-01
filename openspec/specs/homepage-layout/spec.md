@@ -2,24 +2,60 @@
 
 ## Purpose
 
-Define la estructura visual y la identidad de marca de la homepage de Rosetta Café de Especialidad: masthead con wordmark y fotografía, navegación sticky, secciones apiladas y footer institucional con datos de contacto. El sistema cromático es paper-and-ink con acento de latón, y el documento emite metadatos localizados en el `<head>`.
+Define la estructura visual y la identidad de marca de la homepage de Rosetta Café de Especialidad: masthead con marca, wordmark y fotografía, navegación sticky, secciones apiladas y footer institucional con datos de contacto. El sistema cromático es paper-and-ink con dos acentos — terracota para el dinero y la posición, verde de marca para la identidad — y el documento emite metadatos localizados en el `<head>`.
 
 ## Requirements
 
 ### Requirement: Hero Section Branding
 
-The homepage MUST display "Rosetta" as the primary heading at display scale, with the kind label "Café de especialidad" (`hero.kind`) as a subordinate block within or immediately below the heading, and the tagline (`hero.tagline`) below both, each in the current locale. The hero MUST NOT be pinned to the full viewport height: no viewport-height unit MAY constrain it, and its height MUST be the sum of its padding, text block, and photograph band.
+The homepage MUST display the brand mark above the wordmark as a circular image, followed by "Rosetta" as the primary heading at display scale, the kind label "Café de especialidad" (`hero.kind`) as a subordinate block within or immediately below the heading, and the tagline (`hero.tagline`) below both, each in the current locale.
+
+The masthead text block MUST be centred below 768px, with the mark above the wordmark, and MUST be left-aligned at 768px and above, with the mark above the wordmark on the left margin. The mark MUST measure 5.5rem below 768px and 6rem at 768px and above.
+
+The mark MUST be rendered through the build pipeline — an `astro:assets` `<Image>` from a module imported out of `src/assets/` — and MUST be masked to a circle in CSS rather than shipped as a pre-cropped image with transparency. It MUST carry `alt=""`, because the adjacent wordmark already names the brand.
+
+The hero MUST NOT be pinned to the full viewport height: no viewport-height unit MAY constrain it, and its height MUST be the sum of its padding, text block, and photograph band.
 
 The hero MUST include the café photograph as a band whose aspect ratio is 4:3 on viewports below 768px and 21:9 at 768px and above. The photograph MUST be the LCP element and MUST carry a priority hint, responsive `srcset`/`sizes`, and intrinsic dimensions.
 
-(Previously: the hero was required to occupy the full viewport height on desktop, and the heading was specified as the single string "Rosetta Café de Especialidad")
+(Previously: the hero carried no brand mark, and neither the masthead alignment nor the mark's size was specified; before that, the hero was required to occupy the full viewport height on desktop and the heading was the single string "Rosetta Café de Especialidad")
 
 #### Scenario: Hero renders with brand identity
 
 - GIVEN the homepage loads
 - WHEN the user views the hero section
-- THEN the wordmark "Rosetta" is the page's only `<h1>`
+- THEN the brand mark is visible above the wordmark
+- AND the wordmark "Rosetta" is the page's only `<h1>`
 - AND the kind label and tagline appear in the correct locale below it
+
+#### Scenario: Mark is decorative
+
+- GIVEN the brand mark is rendered
+- WHEN reading its accessible name
+- THEN it is empty
+- AND the mark is not a link and adds no stop to the tab order
+
+#### Scenario: Mark is emitted by the build pipeline
+
+- GIVEN the mark is rendered
+- WHEN inspecting the emitted element
+- THEN it carries `srcset`, `sizes`, `width`, and `height`
+- AND its source is an imported module from `src/assets/`
+- AND its circular mask comes from CSS, not from a transparent cutout
+
+#### Scenario: Masthead is centred on mobile
+
+- GIVEN a viewport width of 375px
+- WHEN the masthead renders
+- THEN the mark, wordmark, kind label and tagline are horizontally centred
+- AND the mark measures 5.5rem
+
+#### Scenario: Masthead is left-aligned on desktop
+
+- GIVEN a viewport width of 1280px
+- WHEN the masthead renders
+- THEN the mark, wordmark, kind label and tagline align to the left margin
+- AND the mark measures 6rem
 
 #### Scenario: Hero is not locked to the viewport
 
@@ -65,20 +101,25 @@ The layout MUST be mobile-first with CSS media queries. The page structure — h
 
 ### Requirement: Paper and Ink Palette
 
-The system MUST define its entire colour system as CSS custom properties in one `:root` block in `src/styles/global.css`: `--paper`, `--ink`, `--ink-muted`, `--rule`, `--wash`, `--brass`, and `--brass-ink`. No component MAY declare a literal colour for a visible surface, border, or text, and no page MAY pass a per-section colour to a component. The page field MUST be a warm near-white paper tone.
+The system MUST define its entire colour system as CSS custom properties in one `:root` block in `src/styles/global.css`: `--paper`, `--ink`, `--ink-muted`, `--rule`, `--wash`, `--terracotta`, `--terracotta-ink`, `--green`, and `--green-ink`. No component MAY declare a literal colour for a visible surface, border, or text, and no page MAY pass a per-section colour to a component. The page field MUST be a warm near-white paper tone.
 
 Two sites are exempt because neither can resolve a custom property: the alpha-only `#000` stops inside the nav's `mask-image` gradient, which paint no colour, and the `theme-color` meta value, which is a document-head string.
 
-The brass hue MUST be split by role: `--brass` is decorative and MUST NOT be applied to text below the large-text threshold, while `--brass-ink` is the only brass value permitted on text. Every foreground/background pair used for text MUST clear WCAG 2.1 AA contrast for its size, verified numerically rather than visually.
+The system MUST carry two accents, and each MUST be split by role. `--terracotta` and `--green` are decorative and MUST NOT be applied to text below the large-text threshold; `--terracotta-ink` and `--green-ink` are the only values of their hue permitted on text. `--green` MUST be the brand value `#86a479`, used unchanged wherever it paints a surface.
 
-(Previously: "Warm Color Palette" required browns, creams, and earth tones with `--color-primary`, `--color-secondary`, `--color-bg`, and `--color-text` defined, and left contrast unverified — six AA failures existed under it)
+The accents MUST be assigned by meaning, not by element: terracotta carries money and position (prices, the active nav marker, text selection, the focus ring), and green carries identity (the hero kind label, sub-category headings, the protocolo note's left border, the language switcher hover).
+
+Every foreground/background pair used for text MUST clear WCAG 2.1 AA contrast for its size, verified numerically rather than visually.
+
+(Previously: the token set was `--paper`, `--ink`, `--ink-muted`, `--rule`, `--wash`, `--brass` and `--brass-ink`, with a single brass hue split by role. `--brass` and `--brass-ink` MUST NOT exist. Before that, "Warm Color Palette" required browns, creams and earth tones with `--color-*` tokens and left contrast unverified)
 
 #### Scenario: Tokens are defined once
 
 - GIVEN the global stylesheet loads
 - WHEN the browser computes CSS custom properties
-- THEN `--paper`, `--ink`, `--ink-muted`, `--rule`, `--wash`, `--brass`, and `--brass-ink` are defined
+- THEN `--paper`, `--ink`, `--ink-muted`, `--rule`, `--wash`, `--terracotta`, `--terracotta-ink`, `--green`, and `--green-ink` are defined
 - AND no `--color-*` token is defined
+- AND neither `--brass` nor `--brass-ink` is defined
 
 #### Scenario: No literal colours outside the token block
 
@@ -93,13 +134,22 @@ The brass hue MUST be split by role: `--brass` is decorative and MUST NOT be app
 - WHEN its contrast ratio is computed
 - THEN each pair meets its WCAG 2.1 AA threshold
 - AND `--ink-muted` on `--paper` is at least 4.5:1
-- AND `--brass-ink` on `--paper` is at least 4.5:1
+- AND `--terracotta-ink` on `--paper` is at least 4.5:1
+- AND `--green-ink` on `--paper` is at least 4.5:1
 
-#### Scenario: Brass is not used as small text
+#### Scenario: The brand green is never text
+
+- GIVEN the brand value `#86a479`
+- WHEN computing its contrast against `--paper`
+- THEN the ratio is below 4.5:1
+- AND no text element smaller than the large-text threshold resolves to `--green`
+- AND every such element of the green hue resolves to `--green-ink`
+
+#### Scenario: Terracotta is not used as small text
 
 - GIVEN a text element smaller than the large-text threshold
 - WHEN inspecting its colour
-- THEN it resolves to `--brass-ink` and not `--brass`
+- THEN it resolves to `--terracotta-ink` and not `--terracotta`
 
 ### Requirement: Document Head Metadata
 
