@@ -15,7 +15,7 @@ Static menu website for Rosetta Café (specialty coffee shop, Salta, Argentina).
 - **Biome is configured (`biome.json`) but its native binary will not launch on this machine.** `npx biome check src/`, the `.bin` shim, and `node_modules/@biomejs/cli-win32-x64/biome.exe` all exit `-1073741515` (`0xC0000135`, missing DLL) with no output. That exit code is an environment failure, NOT a lint result — don't report it as findings, and don't try to "fix" the code because of it. Format manually to match `biome.json`: 2-space indent, LF, double quotes.
 - Biome's config only covers `src/**/*.astro` and `src/**/*.ts`; anything outside `src/` is intentionally unlinted.
 - `package.json` name is `second-spectrum` — stale, not a mistake to "fix" unprompted.
-- Product photos are WebP in `public/images/products/`. Source photos arrive as HEIC; `heic-convert` is installed to convert them. Never commit HEIC files — `src/data/espresso-leche-grande.HEIC` is a stray leftover, not a template.
+- Product photos are WebP in `src/assets/products/`, imported at the top of `src/data/menu.ts` and rendered through `astro:assets`. A product's `image` is an `ImageMetadata` produced by that import, never a path string — `public/` holds only the favicons, and a raw `<img src="/images/...">` is not the pattern. Source photos arrive as HEIC; `heic-convert` is installed to convert them. Never commit HEIC files — `src/data/espresso-leche-grande.HEIC` is a stray leftover, not a template.
 - `.atl/` is an auto-generated skill registry: gitignored, never commit or hand-edit.
 - `dist/` and `.astro/` are gitignored build output.
 - `faltan-imagenes.txt` tracks products still missing photos (source of truth for that gap).
@@ -26,7 +26,7 @@ Static menu website for Rosetta Café (specialty coffee shop, Salta, Argentina).
   - UI chrome (nav, footer, hero) → keys in `src/i18n/es.json` + `en.json`, resolved with `t(key, locale)`.
   - Menu content → inline `{ es, en }` objects (`I18nRecord`) inside `src/data/menu.ts`, resolved with `tRecord(value, locale)`.
 - **Locale threading is manual.** Each page hardcodes `const locale` (`src/pages/index.astro` → `"es"`, `src/pages/en/index.astro` → `"en"`) and passes it as a prop through every component. No Astro i18n helpers are used in code. Adding a locale means a new page + threading, not just config (`astro.config.mjs` declares `es` as default with no prefix).
-- `src/data/menu.ts` is the single source of truth: `categories`, `products` (94 — README's "88" is stale), `protocolo` (pet-friendly notice). A product's `category` MUST match an id in `categories`.
+- `src/data/menu.ts` is the single source of truth: `categories`, `products` (94), `protocolo` (pet-friendly notice). A product's `category` MUST match an id in `categories`.
 - Subcategories: `subCategories` holds parallel `es`/`en` arrays — keep the same order across locales. The menu renders as a single ledger of rows (`ProductListItem.astro`); a subcategory group shows the thumbnail column only when at least one of its products has an image.
 - `image: ""` is a valid state meaning "no photo" — the row renders without a thumbnail. Not an error.
 - `BaseLayout.astro` wraps both pages; components live in `src/components/` and all receive `locale` as a prop.
