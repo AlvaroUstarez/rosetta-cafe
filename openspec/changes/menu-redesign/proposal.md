@@ -1,5 +1,7 @@
 # Proposal: menu-redesign
 
+> **Superseded by `menu-ledger-redesign`.** This change was never applied: its spec deltas were replaced by the ledger redesign, which is the change that reached the canonical specs. **Do not apply or archive these deltas** — they would reintroduce the card grammar, the responsive grid, the warm `--color-*` palette and Playfair Display on top of the current contracts. Kept as a record of the exploration and the rejected alternatives.
+
 **Change**: `menu-redesign`
 **Phase**: propose
 **Status**: Proposed — three owner decisions locked, delivery shape locked, spec deltas not yet written

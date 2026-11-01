@@ -149,5 +149,5 @@ Every task below was executed in the working tree before this document was writt
 ## 6. Open items
 
 - [ ] 6.1 Wire the three footer social links to real URLs (needs the café's accounts).
-- [ ] 6.2 Reconcile `openspec/specs/product-menu/spec.md` and `homepage-layout` with this change's deltas — done by archiving this change.
-- [ ] 6.3 Decide whether `openspec/changes/menu-redesign/` is archived as superseded or deleted.
+- [x] 6.2 Reconcile `openspec/specs/product-menu/spec.md`, `homepage-layout` and `i18n` with this change's deltas — done by archiving this change. `i18n`'s `Language Switcher Mechanism` now defers its rendering contract to `homepage-layout`, which the delta had already changed.
+- [ ] 6.3 Decide whether `openspec/changes/menu-redesign/` is archived as superseded or deleted. A `Superseded` banner was added to its `proposal.md` so its deltas are never applied on top of the reconciled specs.
